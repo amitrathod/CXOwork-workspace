@@ -1,0 +1,2471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CXOwork — Client Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" rel="stylesheet" />
+<style>
+  :root {
+    /* Primary & Accent */
+    --primary: #3b82f6;
+    --primary-fg: #ffffff;
+    --primary-hover: #2563eb;
+    --ring: #3b82f6;
+    --accent: #e0f2fe;
+    --accent-fg: #1e3a8a;
+
+    /* Backgrounds */
+    --bg: #f9fafb;
+    --surface: #f3f4f6;
+    --white: #ffffff;
+
+    /* Text */
+    --text: #333333;
+    --text-muted: #6b7280;
+    --text-light: #9ca3af;
+
+    /* Borders & Input */
+    --border: #e5e7eb;
+    --input: #e5e7eb;
+
+    /* Sidebar */
+    --sidebar-bg: #f9fafb;
+    --sidebar-fg: #333333;
+    --sidebar-primary: #3b82f6;
+    --sidebar-primary-fg: #ffffff;
+    --sidebar-accent: #e0f2fe;
+    --sidebar-accent-fg: #1e3a8a;
+    --sidebar-border: #e5e7eb;
+
+    /* Status colors */
+    --green: #16a34a;
+    --green-light: #dcfce7;
+    --red: #ef4444;
+    --red-light: #fef2f2;
+    --amber: #f59e0b;
+    --amber-light: #fef3c7;
+    --blue: #3b82f6;
+    --blue-light: #e0f2fe;
+
+    /* Chart palette */
+    --chart-1: #3b82f6;
+    --chart-2: #2563eb;
+    --chart-3: #1d4ed8;
+    --chart-4: #1e40af;
+    --chart-5: #1e3a8a;
+
+    /* Layout */
+    --sidebar-w: 168px;
+    --radius: 10px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14.7px;
+    line-height: 1.5;
+  }
+
+  /* ===== LAYOUT ===== */
+  .app { display: flex; min-height: 100vh; }
+
+  .sidebar {
+    width: var(--sidebar-w);
+    background: var(--sidebar-bg);
+    border-right: 1px solid var(--sidebar-border);
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    z-index: 100;
+  }
+
+  .sidebar-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 20px 16px 16px;
+    font-family: 'DM Serif Display', serif;
+    font-size: 17.85px;
+    color: var(--sidebar-fg);
+    border-bottom: 1px solid var(--sidebar-border);
+  }
+
+  .sidebar-logo-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    background: var(--primary);
+    border: none;
+    box-shadow: none;
+  }
+
+  .sidebar-logo-icon .material-symbols-outlined {
+    width: 16px; height: 16px;
+    color: var(--primary-fg);
+    font-size: 18.9px;
+    line-height: 1;
+  }
+
+  .sidebar-logo-text {
+    line-height: 1;
+    font-weight: 700;
+    font-family: 'Sora', sans-serif;
+  }
+
+  .sidebar-nav {
+    flex: 1;
+    padding: 10px 0;
+    overflow-y: auto;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 9px 16px;
+    cursor: pointer;
+    color: var(--sidebar-fg);
+    font-size: 14.175px;
+    font-weight: 400;
+    border-radius: 0;
+    transition: all 0.12s;
+    border-left: 2px solid transparent;
+    user-select: none;
+    opacity: 0.65;
+  }
+  .nav-item:hover { background: var(--sidebar-accent); color: var(--sidebar-accent-fg); opacity: 1; }
+  .nav-item.active {
+    background: var(--sidebar-accent);
+    color: var(--sidebar-primary);
+    font-weight: 500;
+    border-left-color: var(--sidebar-primary);
+    opacity: 1;
+  }
+  .nav-item .material-symbols-outlined { flex-shrink: 0; opacity: 0.7; font-size: 16.8px; line-height: 1; }
+  .nav-item.active .material-symbols-outlined { opacity: 1; color: var(--sidebar-primary); }
+
+  .sidebar-user {
+    padding: 12px 16px;
+    border-top: 1px solid var(--sidebar-border);
+    display: flex;
+    align-items: center;
+    gap: 9px;
+  }
+  .avatar-sm {
+    width: 30px; height: 30px;
+    background: var(--primary);
+    color: var(--primary-fg);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11.55px; font-weight: 600; flex-shrink: 0;
+  }
+  .sidebar-user-info { flex: 1; min-width: 0; }
+  .sidebar-user-name { font-size: 13.125px; font-weight: 500; }
+  .sidebar-user-role { font-size: 11.55px; color: var(--text-muted); }
+  .logout-btn { color: var(--text-muted); cursor: pointer; }
+  .logout-btn:hover { color: var(--text); }
+
+  /* ===== MAIN ===== */
+  .main {
+    margin-left: var(--sidebar-w);
+    flex: 1;
+    padding: 32px 36px;
+    min-height: 100vh;
+  }
+
+  .page { display: none; }
+  .page.active { display: block; animation: fadeIn 0.2s ease; }
+
+  /* ===== PAGE HEADER ===== */
+  .page-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 24px;
+  }
+  .page-title { font-size: 25.2px; font-weight: 600; }
+  .page-subtitle { font-size: 13.65px; color: var(--text-muted); margin-top: 2px; }
+
+  /* ===== BUTTONS ===== */
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 16px;
+    border-radius: var(--radius);
+    font-family: inherit; font-size: 13.65px; font-weight: 500;
+    cursor: pointer; border: none; transition: all 0.12s;
+    text-decoration: none;
+  }
+  .btn-primary { background: var(--primary); color: var(--primary-fg); }
+  .btn-primary:hover { background: var(--primary-hover); }
+  .btn-secondary { background: var(--white); color: var(--text); border: 1px solid var(--border); }
+  .btn-secondary:hover { background: var(--bg); }
+  .btn-sm { padding: 5px 12px; font-size: 12.6px; }
+  .btn-black { background: var(--primary); color: var(--primary-fg); border-radius: 8px; padding: 9px 18px; font-size: 13.65px; font-weight: 500; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+  .btn-black:hover { background: var(--primary-hover); }
+  .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border); border-radius: 8px; padding: 9px 18px; font-size: 13.65px; font-weight: 500; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+  .btn-outline:hover { background: var(--bg); }
+
+  /* ===== CARDS ===== */
+  .card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+  }
+
+  /* ===== STATS ROW ===== */
+  .stats-row {
+    display: grid;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .stats-4 { grid-template-columns: repeat(4, 1fr); }
+  .stats-3 { grid-template-columns: repeat(3, 1fr); }
+
+  .stat-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+  }
+  .stat-label {
+    font-size: 12.6px;
+    color: var(--text-muted);
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .stat-value { font-size: 27.3px; font-weight: 600; margin: 6px 0 4px; }
+  .stat-change { font-size: 12.6px; color: var(--text-muted); }
+  .stat-change.up { color: var(--green); }
+  .stat-change.down { color: var(--red); }
+
+  /* ===== BADGE ===== */
+  .badge {
+    display: inline-flex; align-items: center;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-size: 11.55px; font-weight: 500;
+  }
+  .badge-green { background: var(--green-light); color: var(--green); }
+  .badge-amber { background: var(--amber-light); color: var(--amber); }
+  .badge-red { background: var(--red-light); color: var(--red); }
+  .badge-blue { background: var(--blue-light); color: var(--blue); }
+  .badge-gray { background: var(--bg); color: var(--text-muted); border: 1px solid var(--border); }
+  .badge-black { background: var(--primary); color: var(--primary-fg); }
+
+  /* ===== TABS ===== */
+  .tabs {
+    display: flex;
+    gap: 2px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 20px;
+  }
+  .tab {
+    padding: 8px 16px;
+    font-size: 13.65px;
+    font-weight: 400;
+    color: var(--text-muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: all 0.12s;
+    user-select: none;
+  }
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--primary); font-weight: 500; border-bottom-color: var(--primary); }
+
+  /* ===== FORM ===== */
+  .form-group { margin-bottom: 16px; }
+  .form-label { font-size: 12.6px; color: var(--text-muted); margin-bottom: 5px; display: block; }
+  .form-input {
+    width: 100%;
+    padding: 9px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 14.175px;
+    color: var(--text);
+    background: var(--white);
+    outline: none;
+    transition: border 0.12s;
+  }
+  .form-input:focus { border-color: var(--primary); box-shadow: 0 0 0 2px rgba(59,130,246,0.12); }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  textarea.form-input { resize: vertical; min-height: 80px; }
+  select.form-input { cursor: pointer; }
+
+  /* ===== GRIDS ===== */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+
+  /* ===== AVATAR ===== */
+  .avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12.6px; font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  /* ===== SEPARATOR ===== */
+  .sep { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
+
+  /* ===== PILL TAGS ===== */
+  .tag {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 4px 10px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    font-size: 12.6px;
+    background: var(--white);
+    color: var(--text);
+  }
+  .tag.selected { background: var(--primary); color: var(--primary-fg); border-color: var(--primary); }
+
+  .pill-filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+  .pill-filter { padding: 5px 14px; border: 1px solid var(--border); border-radius: 20px; font-size: 13.125px; font-weight: 500; cursor: pointer; background: var(--white); color: var(--text); transition: all 0.1s; user-select: none; }
+  .pill-filter:hover { background: var(--bg); }
+  .pill-filter.active { background: var(--primary); color: var(--primary-fg); border-color: var(--primary); }
+
+  /* ===== MISC UTILS ===== */
+  .flex { display: flex; }
+  .flex-col { flex-direction: column; }
+  .items-center { align-items: center; }
+  .items-start { align-items: flex-start; }
+  .justify-between { justify-content: space-between; }
+  .gap-2 { gap: 8px; }
+  .gap-3 { gap: 12px; }
+  .gap-4 { gap: 16px; }
+  .mt-1 { margin-top: 4px; }
+  .mt-2 { margin-top: 8px; }
+  .mt-3 { margin-top: 12px; }
+  .mt-4 { margin-top: 16px; }
+  .mb-2 { margin-bottom: 8px; }
+  .mb-3 { margin-bottom: 12px; }
+  .mb-4 { margin-bottom: 16px; }
+  .text-sm { font-size: 12.6px; }
+  .text-muted { color: var(--text-muted); }
+  .text-green { color: var(--green); }
+  .font-500 { font-weight: 500; }
+  .font-600 { font-weight: 600; }
+  .w-full { width: 100%; }
+  .section-title { font-size: 15.75px; font-weight: 600; margin-bottom: 4px; }
+  .section-sub { font-size: 12.6px; color: var(--text-muted); margin-bottom: 14px; }
+  .bar-progress { height: 4px; background: var(--border); border-radius: 4px; overflow: hidden; margin-top: 6px; }
+  .bar-fill { height: 100%; background: var(--primary); border-radius: 4px; }
+  .star { color: #F59E0B; }
+
+  /* ===== OPPORTUNITY CARD (from advisor view, reused) ===== */
+  .opp-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+  }
+  .opp-meta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 14px 0;
+  }
+  .opp-meta-item {
+    background: var(--bg);
+    border-radius: 8px;
+    padding: 10px 12px;
+  }
+  .opp-meta-label { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); }
+  .opp-meta-value { font-size: 14.175px; font-weight: 500; margin-top: 2px; }
+
+  /* ===== SESSION CARD ===== */
+  .session-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px; margin-bottom: 12px; display: flex; align-items: flex-start; gap: 14px; position: relative; }
+  .session-card-info { flex: 1; }
+  .session-card-actions { display: flex; gap: 8px; margin-top: 12px; }
+
+  /* ===== DATA TABLE ===== */
+  .data-table { width: 100%; border-collapse: collapse; }
+  .data-table th { text-align: left; font-size: 12.6px; font-weight: 500; color: var(--text-muted); padding: 10px 12px; border-bottom: 1px solid var(--border); }
+  .data-table td { padding: 12px 12px; border-bottom: 1px solid var(--border); font-size: 13.65px; vertical-align: middle; }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table tr:hover td { background: var(--bg); }
+
+  /* ===== CHAT ===== */
+  .chat-layout { display: grid; grid-template-columns: 280px 1fr; height: calc(100vh - 120px); gap: 0; background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+  .chat-list { border-right: 1px solid var(--border); overflow-y: auto; }
+  .chat-list-header { padding: 14px 16px; border-bottom: 1px solid var(--border); }
+  .chat-list-search { width: 100%; padding: 7px 10px; border: 1px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 13.65px; outline: none; background: var(--bg); }
+  .chat-item { display: flex; align-items: flex-start; gap: 10px; padding: 12px 16px; cursor: pointer; border-bottom: 1px solid var(--border); transition: background 0.1s; }
+  .chat-item:hover, .chat-item.active { background: var(--bg); }
+  .chat-item-info { flex: 1; min-width: 0; }
+  .chat-item-name { font-size: 13.65px; font-weight: 500; }
+  .chat-item-sub { font-size: 11.55px; color: var(--text-muted); }
+  .chat-item-preview { font-size: 12.6px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
+  .chat-item-time { font-size: 11.55px; color: var(--text-muted); flex-shrink: 0; }
+  .online-dot { width: 7px; height: 7px; background: var(--green); border-radius: 50%; display: inline-block; margin-right: 3px; }
+  .chat-window { display: flex; flex-direction: column; }
+  .chat-header { padding: 14px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .chat-header-info h3 { font-size: 14.7px; font-weight: 500; }
+  .chat-header-sub { font-size: 12.6px; color: var(--text-muted); }
+  .chat-messages { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+  .msg { max-width: 70%; }
+  .msg-bubble { padding: 10px 14px; border-radius: 12px; font-size: 13.65px; line-height: 1.5; }
+  .msg-in .msg-bubble { background: var(--bg); border-radius: 12px 12px 12px 2px; }
+  .msg-out { align-self: flex-end; }
+  .msg-out .msg-bubble { background: var(--primary); color: var(--primary-fg); border-radius: 12px 12px 2px 12px; }
+  .msg-time { font-size: 11.55px; color: var(--text-muted); margin-top: 4px; }
+  .msg-out .msg-time { text-align: right; }
+  .chat-input-area { padding: 14px 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+  .chat-input { flex: 1; padding: 9px 14px; border: 1px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 13.65px; outline: none; }
+  .chat-input:focus { border-color: var(--primary); box-shadow: 0 0 0 2px rgba(59,130,246,0.12); }
+
+  /* ===== UPCOMING SESSION WIDE CARD ===== */
+  .upcoming-wide {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  .upcoming-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .upcoming-item:last-child { border-bottom: none; }
+
+  /* ===== ACTIVITY ITEM ===== */
+  .activity-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .activity-item:last-child { border-bottom: none; }
+  .activity-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 6px;
+  }
+
+  /* ===== MILESTONE ===== */
+  .milestone-item {
+    display: flex; gap: 12px; align-items: flex-start;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .milestone-item:last-child { border-bottom: none; }
+  .milestone-check {
+    width: 20px; height: 20px; border-radius: 50%;
+    background: var(--green); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11.55px; flex-shrink: 0; margin-top: 2px;
+  }
+
+  /* ===== ADVISOR NL SEARCH PANEL ===== */
+  .advisor-search-panel {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 32px;
+    margin-bottom: 28px;
+    text-align: center;
+  }
+  .advisor-search-panel .search-heading {
+    font-family: 'Sora', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 6px 0;
+    color: var(--text);
+  }
+  .advisor-search-panel .search-subtitle {
+    font-size: 13.5px;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+  }
+  .nl-search-bar {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    max-width: 680px;
+    margin: 0 auto;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    background: var(--bg);
+    padding: 4px 4px 4px 16px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .nl-search-bar:focus-within {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.12);
+  }
+  .nl-search-bar input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-size: 14.5px;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text);
+    outline: none;
+    padding: 10px 0;
+  }
+  .nl-search-bar input::placeholder {
+    color: var(--text-light);
+  }
+  .btn-nl-search {
+    padding: 10px 24px;
+    background: var(--primary);
+    color: var(--primary-fg);
+    border: none;
+    border-radius: 9px;
+    font-size: 13.5px;
+    font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: opacity 0.15s;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .btn-nl-search:hover { opacity: 0.85; }
+  .example-queries {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 18px;
+  }
+  .example-query {
+    padding: 6px 16px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    font-size: 12.5px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .example-query:hover {
+    background: var(--primary);
+    color: var(--primary-fg);
+    border-color: var(--primary);
+  }
+
+  /* ===== BROWSE SECTION ===== */
+  .browse-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .browse-section-header h3 {
+    font-family: 'Sora', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+    color: var(--text);
+  }
+  .browse-section-header .result-count {
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .section-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 0 0 24px 0;
+  }
+  .filter-group {
+    margin-bottom: 12px;
+  }
+  .filter-group-label {
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+  }
+
+  /* ===== ADVISOR LIST TILE (for Find Advisor) ===== */
+  .advisor-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .advisor-tile {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-bottom: none;
+    padding: 20px 24px;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+  }
+  .advisor-tile:first-child {
+    border-radius: var(--radius) var(--radius) 0 0;
+  }
+  .advisor-tile:last-child {
+    border-bottom: 1px solid var(--border);
+    border-radius: 0 0 var(--radius) var(--radius);
+  }
+  .advisor-tile:only-child {
+    border-bottom: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .advisor-tile:hover {
+    background: var(--bg);
+  }
+  .advisor-tile-body {
+    flex: 1;
+    min-width: 0;
+  }
+  .advisor-tile-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-light);
+    opacity: 0.45;
+    margin-bottom: 1px;
+    user-select: none;
+  }
+  .advisor-tile-headline {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 3px;
+    line-height: 1.35;
+  }
+  .advisor-tile-detail {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 2px;
+    line-height: 1.4;
+  }
+  .advisor-tile-experience {
+    font-size: 13.5px;
+    color: var(--text);
+    line-height: 1.45;
+    margin: 8px 0;
+  }
+  .advisor-tile-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin: 10px 0 0 0;
+  }
+  .advisor-tile-tags .tag {
+    font-size: 11.5px;
+    padding: 3px 10px;
+  }
+  .advisor-tile-meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 10px;
+    font-size: 12px;
+    color: var(--text-light);
+  }
+  .advisor-tile-meta span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .advisor-tile-meta .meta-dot {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--text-light);
+  }
+  .advisor-tile-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex-shrink: 0;
+    align-self: center;
+  }
+  .btn-send-message {
+    padding: 8px 18px;
+    background: var(--white);
+    color: var(--primary);
+    border: 1.5px solid var(--primary);
+    border-radius: 8px;
+    font-size: 12.5px;
+    font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .btn-send-message:hover {
+    background: var(--primary);
+    color: var(--primary-fg);
+  }
+  .btn-view-profile {
+    padding: 8px 18px;
+    background: var(--bg);
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 12.5px;
+    font-weight: 500;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+    text-align: center;
+  }
+  .btn-view-profile:hover {
+    background: var(--border);
+    color: var(--text);
+  }
+
+  /* ===== ENGAGEMENT TILE SECTIONS ===== */
+  .eng-tile-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 14px;
+  }
+  .eng-section {
+    background: var(--bg);
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .eng-section-title {
+    font-size: 11.5px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+  }
+  .eng-milestone {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .eng-milestone:last-child { border-bottom: none; }
+  .eng-milestone-icon {
+    width: 18px; height: 18px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; flex-shrink: 0; margin-top: 1px;
+  }
+  .eng-milestone-text { flex: 1; }
+  .eng-milestone-name { font-size: 13px; font-weight: 500; color: var(--text); }
+  .eng-milestone-detail { font-size: 11.5px; color: var(--text-muted); line-height: 1.4; margin-top: 1px; }
+  .eng-activity-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 5px 0;
+  }
+  .eng-activity-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    flex-shrink: 0; margin-top: 6px;
+  }
+  .eng-activity-text { font-size: 12.5px; color: var(--text); line-height: 1.4; }
+  .eng-activity-time { font-size: 11px; color: var(--text-light); }
+  .eng-tile-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ===== MODAL / OVERLAY ===== */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 200;
+    align-items: center; justify-content: center;
+  }
+  .modal-overlay.show { display: flex; }
+  .modal {
+    background: var(--white); border-radius: 14px; width: 620px; max-width: 92vw;
+    max-height: 88vh; overflow-y: auto; box-shadow: 0 24px 80px rgba(0,0,0,0.18);
+    padding: 28px;
+  }
+  .modal-close {
+    float: right; font-size: 18px; color: var(--text-muted);
+    cursor: pointer; width: 32px; height: 32px; display: flex;
+    align-items: center; justify-content: center; border-radius: 50%;
+    background: var(--bg); border: none; transition: background 0.15s;
+  }
+  .modal-close:hover { background: var(--border); }
+  .modal-title { font-size: 20px; font-weight: 600; margin-bottom: 4px; }
+  .modal-subtitle { font-size: 13.65px; color: var(--text-muted); margin-bottom: 20px; }
+
+  /* ===== STEPPER ===== */
+  .stepper { display: flex; gap: 0; margin-bottom: 28px; }
+  .stepper-step {
+    flex: 1; text-align: center; position: relative;
+    font-size: 12.6px; color: var(--text-muted); font-weight: 500;
+    padding-top: 28px;
+  }
+  .stepper-step::before {
+    content: ''; position: absolute; top: 8px; left: 50%; transform: translateX(-50%);
+    width: 14px; height: 14px; border-radius: 50%;
+    background: var(--border); border: 2px solid var(--border);
+  }
+  .stepper-step.active::before { background: var(--primary); border-color: var(--primary); }
+  .stepper-step.completed::before { background: var(--green); border-color: var(--green); }
+  .stepper-step::after {
+    content: ''; position: absolute; top: 14px; left: calc(50% + 10px);
+    width: calc(100% - 20px); height: 2px; background: var(--border);
+  }
+  .stepper-step:last-child::after { display: none; }
+  .stepper-step.completed::after { background: var(--green); }
+
+  /* ===== CHART ===== */
+  .revenue-chart { position: relative; height: 200px; }
+  .revenue-line { stroke: var(--primary); stroke-dasharray: 1200; stroke-dashoffset: 1200; animation: drawLine 1.2s ease forwards; animation-delay: 0.2s; }
+  .revenue-area { opacity: 0; animation: fadeIn 1.2s ease forwards; animation-delay: 0.3s; }
+  .chart-bars .bar-column { width: 100%; border-radius: 8px 8px 0 0; transform: scaleY(0); transform-origin: bottom; opacity: 0; animation: growBar 0.8s ease forwards; }
+  .chart-bars .bar-wrapper:nth-child(1) .bar-column { animation-delay: 0.20s; }
+  .chart-bars .bar-wrapper:nth-child(2) .bar-column { animation-delay: 0.28s; }
+  .chart-bars .bar-wrapper:nth-child(3) .bar-column { animation-delay: 0.36s; }
+  .chart-bars .bar-wrapper:nth-child(4) .bar-column { animation-delay: 0.44s; }
+  .chart-bars .bar-wrapper:nth-child(5) .bar-column { animation-delay: 0.52s; }
+  .chart-bars .bar-wrapper:nth-child(6) .bar-column { animation-delay: 0.60s; }
+
+  /* Work progress chart */
+  .work-chart-legend { display: flex; gap: 20px; margin-bottom: 12px; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12.6px; color: var(--text-muted); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 3px; }
+
+  /* ===== PUBLISHED OPP STATUS ===== */
+  .opp-status-active { color: var(--green); }
+  .opp-status-draft { color: var(--amber); }
+  .opp-status-closed { color: var(--text-muted); }
+
+  @keyframes drawLine { to { stroke-dashoffset: 0; } }
+  @keyframes growBar { to { transform: scaleY(1); opacity: 1; } }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ===== MOBILE HAMBURGER ===== */
+  .mobile-header {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 56px;
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    z-index: 150;
+    align-items: center;
+    padding: 0 16px;
+    gap: 12px;
+  }
+  .hamburger {
+    background: none; border: none; cursor: pointer;
+    width: 36px; height: 36px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 8px; color: var(--text);
+  }
+  .hamburger:hover { background: var(--bg); }
+  .mobile-header .sidebar-logo-text {
+    font-family: 'Sora', sans-serif;
+    font-weight: 700;
+    font-size: 17px;
+  }
+  .sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.35);
+    z-index: 99;
+  }
+  .sidebar-overlay.show { display: block; }
+
+  /* ===== RESPONSIVE: TABLET (≤ 768px) ===== */
+  @media (max-width: 768px) {
+    .mobile-header { display: flex; }
+
+    .sidebar {
+      transform: translateX(-100%);
+      transition: transform 0.25s ease;
+      z-index: 200;
+    }
+    .sidebar.open { transform: translateX(0); }
+
+    .main {
+      margin-left: 0;
+      padding: 72px 20px 24px;
+    }
+
+    .page-header { flex-direction: column; gap: 12px; }
+    .page-title { font-size: 22px; }
+
+    .stats-4 { grid-template-columns: repeat(2, 1fr); }
+    .stats-3 { grid-template-columns: repeat(2, 1fr); }
+
+    .grid-2 { grid-template-columns: 1fr; }
+    .grid-3 { grid-template-columns: 1fr 1fr; }
+
+    .form-row { grid-template-columns: 1fr; }
+
+    .opp-meta-grid { grid-template-columns: 1fr 1fr; }
+
+    .nl-search-bar { flex-direction: column; padding: 12px; gap: 8px; }
+    .btn-nl-search { width: 100%; justify-content: center; }
+
+    /* Chat layout: stack on tablet */
+    .chat-layout {
+      grid-template-columns: 1fr;
+      height: auto;
+      min-height: calc(100vh - 120px);
+    }
+    .chat-list {
+      border-right: none;
+      border-bottom: 1px solid var(--border);
+      max-height: 260px;
+      overflow-y: auto;
+    }
+    .chat-window { min-height: 400px; }
+
+    /* Data table: horizontal scroll */
+    .data-table { display: block; overflow-x: auto; white-space: nowrap; }
+
+    /* Session cards */
+    .session-card { flex-direction: column; gap: 10px; }
+    .session-card .flex.items-center.gap-3 { flex-wrap: wrap; }
+
+    /* Upcoming session items */
+    .upcoming-item { flex-wrap: wrap; gap: 10px; }
+    .upcoming-item > .flex.items-center.gap-3:last-child {
+      width: 100%;
+      justify-content: flex-end;
+    }
+
+    /* Stepper */
+    .stepper-step { font-size: 11px; padding-top: 24px; }
+
+    /* Modal */
+    .modal { padding: 20px; width: 100%; max-width: 96vw; border-radius: 12px; }
+  }
+
+  /* ===== RESPONSIVE: PHONE (≤ 480px) ===== */
+  @media (max-width: 480px) {
+    .main { padding: 64px 14px 20px; }
+
+    .page-title { font-size: 20px; }
+    .page-subtitle { font-size: 12.5px; }
+
+    .stats-4 { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .stats-3 { grid-template-columns: 1fr; }
+    .stat-card { padding: 14px 16px; }
+    .stat-value { font-size: 22px; }
+
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+
+    .card { padding: 16px; }
+
+    .tabs { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .tab { white-space: nowrap; padding: 8px 12px; font-size: 13px; }
+
+    .opp-meta-grid { grid-template-columns: 1fr; }
+
+    /* Advisor tiles mobile */
+    .advisor-tile { flex-direction: column; gap: 14px; padding: 16px; }
+    .advisor-tile-actions { flex-direction: row; align-self: flex-start; }
+    .advisor-tile-meta { flex-wrap: wrap; gap: 8px; }
+
+    .btn-black, .btn-outline, .btn { font-size: 13px; padding: 8px 14px; }
+    .btn-sm { padding: 5px 10px; font-size: 12px; }
+
+    /* Chat */
+    .chat-list { max-height: 200px; }
+    .chat-messages { padding: 14px; }
+    .msg { max-width: 85%; }
+
+    /* Pill filters */
+    .pill-filters { gap: 6px; }
+    .pill-filter { padding: 4px 10px; font-size: 12px; }
+
+    /* Search panel mobile */
+    .advisor-search-panel { padding: 20px; }
+    .advisor-search-panel .search-heading { font-size: 17px; }
+    .example-queries { gap: 6px; }
+    .example-query { font-size: 11.5px; padding: 5px 12px; }
+    .browse-section-header { flex-direction: column; gap: 4px; align-items: flex-start; }
+
+    /* Badges */
+    .badge { font-size: 11px; padding: 2px 6px; }
+
+    /* Stepper text */
+    .stepper-step { font-size: 10px; }
+    .stepper-step::before { width: 12px; height: 12px; }
+
+    /* Modal fullscreen on phone */
+    .modal { max-width: 100vw; max-height: 100vh; border-radius: 0; }
+    .modal-overlay.show { align-items: flex-end; }
+
+    /* Work chart legend */
+    .work-chart-legend { flex-direction: column; gap: 8px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <!-- MOBILE HEADER -->
+  <div class="mobile-header">
+    <button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">
+      <span class="material-symbols-outlined">menu</span>
+    </button>
+    <span class="sidebar-logo-text">CXOwork</span>
+  </div>
+  <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <span class="sidebar-logo-icon" aria-hidden="true">
+        <span class="material-symbols-outlined">work_outline</span>
+      </span>
+      <span class="sidebar-logo-text">CXOwork</span>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-item active" data-page="browse-advisors" onclick="navigate('browse-advisors',this)">
+        <span class="material-symbols-outlined">supervisor_account</span>
+        Find Advisor
+      </div>
+      <div class="nav-item" data-page="engagements" onclick="navigate('engagements',this)">
+        <span class="material-symbols-outlined">handshake</span>
+        Your Engagements
+      </div>
+      <div class="nav-item" data-page="sessions" onclick="navigate('sessions',this)">
+        <span class="material-symbols-outlined">schedule</span>
+        Sessions
+      </div>
+      <div class="nav-item" data-page="messages" onclick="navigate('messages',this)">
+        <span class="material-symbols-outlined">chat_bubble_outline</span>
+        Messages
+      </div>
+      <div class="nav-item" data-page="opportunities" onclick="navigate('opportunities',this)">
+        <span class="material-symbols-outlined">campaign</span>
+        Published Opportunities
+      </div>
+      <div class="nav-item" data-page="profile" onclick="navigate('profile',this)">
+        <span class="material-symbols-outlined">person</span>
+        My Profile
+      </div>
+    </nav>
+    <div class="sidebar-user">
+      <div class="avatar-sm">AW</div>
+      <div class="sidebar-user-info">
+        <div class="sidebar-user-name">Alex Walker</div>
+        <div class="sidebar-user-role">Client</div>
+      </div>
+      <div class="logout-btn">
+        <span class="material-symbols-outlined">logout</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main">
+
+    <!-- ===== OVERVIEW PAGE ===== -->
+    <!-- ===== BROWSE ADVISORS PAGE (default landing) ===== -->
+    <div class="page active" id="page-browse-advisors">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Find Advisor</div>
+          <div class="page-subtitle">Find the right advisor for your needs</div>
+        </div>
+      </div>
+
+      <!-- TOP HALF: Natural Language Search -->
+      <div class="advisor-search-panel">
+        <div class="search-heading">Describe the advisor you're looking for</div>
+        <div class="search-subtitle">Tell us about your org, stage, or challenge — we'll match you with the right advisor</div>
+        <div class="nl-search-bar">
+          <input type="text" placeholder="e.g. We're a Series A SaaS startup looking for a fractional CFO to help with fundraising..." />
+          <button class="btn-nl-search">
+            <span class="material-symbols-rounded" style="font-size:18px;">search</span>
+            Search
+          </button>
+        </div>
+        <div class="example-queries">
+          <span class="example-query">Fractional CFO for Series B fundraise</span>
+          <span class="example-query">GTM advisor for PLG SaaS in healthcare</span>
+          <span class="example-query">CTO to help scale engineering team</span>
+          <span class="example-query">Board advisor with M&A experience</span>
+          <span class="example-query">COO for ops-heavy marketplace startup</span>
+        </div>
+      </div>
+
+      <!-- BOTTOM HALF: Browse & Filter Experience -->
+      <hr class="section-divider" />
+      <div class="browse-section-header">
+        <h3>Browse All Advisors</h3>
+        <span class="result-count">12 advisors available</span>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-group-label">Expertise</div>
+        <div class="pill-filters">
+          <div class="pill-filter active">All</div>
+          <div class="pill-filter">CFO</div>
+          <div class="pill-filter">Strategy</div>
+          <div class="pill-filter">GTM</div>
+          <div class="pill-filter">Operations</div>
+          <div class="pill-filter">Technology</div>
+          <div class="pill-filter">Board</div>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-group-label">Industry</div>
+        <div class="pill-filters">
+          <div class="pill-filter active">All</div>
+          <div class="pill-filter">SaaS / Software</div>
+          <div class="pill-filter">Fintech</div>
+          <div class="pill-filter">Healthcare</div>
+          <div class="pill-filter">E-commerce</div>
+          <div class="pill-filter">Deep Tech / AI</div>
+          <div class="pill-filter">Marketplace</div>
+          <div class="pill-filter">Enterprise</div>
+        </div>
+      </div>
+
+      <div class="filter-group" style="margin-bottom:20px;">
+        <div class="filter-group-label">Engagement Type</div>
+        <div class="pill-filters">
+          <div class="pill-filter active">All</div>
+          <div class="pill-filter">Advisory</div>
+          <div class="pill-filter">Operational</div>
+          <div class="pill-filter">Board</div>
+          <div class="pill-filter">Monthly Retainer</div>
+          <div class="pill-filter">Project-based</div>
+        </div>
+      </div>
+
+      <div class="advisor-list">
+
+        <div class="advisor-tile">
+          <div class="advisor-tile-body">
+            <div class="advisor-tile-name">Sarah C.</div>
+            <div class="advisor-tile-headline">Fractional CFO | Fintech & SaaS Finance Leader</div>
+            <div class="advisor-tile-detail">San Francisco, CA</div>
+            <div class="advisor-tile-experience">Former VP Finance at Stripe. 15+ years leading finance orgs in fintech, building SaaS metrics frameworks, and advising on Series A–C fundraising strategy. Deep expertise in financial modeling, unit economics, and investor reporting.</div>
+            <div class="advisor-tile-tags">
+              <span class="tag">Financial Modeling</span><span class="tag">SaaS Metrics</span><span class="tag">Fundraising</span><span class="tag">Fintech</span>
+            </div>
+            <div class="advisor-tile-meta">
+              <span>4.9 rating</span><span class="meta-dot"></span>
+              <span>86 sessions</span><span class="meta-dot"></span>
+              <span>12 clients</span><span class="meta-dot"></span>
+              <span>$250/hr</span>
+            </div>
+          </div>
+          <div class="advisor-tile-actions">
+            <button class="btn-send-message">Send Message</button>
+            <button class="btn-view-profile">View Profile</button>
+          </div>
+        </div>
+
+        <div class="advisor-tile">
+          <div class="advisor-tile-body">
+            <div class="advisor-tile-name">Michael R.</div>
+            <div class="advisor-tile-headline">Strategic Advisor | Enterprise Partnerships & APAC Market Entry</div>
+            <div class="advisor-tile-detail">New York, NY</div>
+            <div class="advisor-tile-experience">Ex-McKinsey partner with 20+ years in corporate strategy. Deep expertise in APAC market entry, enterprise partnership development, and M&A due diligence. Advised Fortune 500 companies and high-growth startups on cross-border expansion.</div>
+            <div class="advisor-tile-tags">
+              <span class="tag">Strategy</span><span class="tag">APAC</span><span class="tag">Partnerships</span><span class="tag">M&A</span>
+            </div>
+            <div class="advisor-tile-meta">
+              <span>4.8 rating</span><span class="meta-dot"></span>
+              <span>124 sessions</span><span class="meta-dot"></span>
+              <span>18 clients</span><span class="meta-dot"></span>
+              <span>$300/hr</span>
+            </div>
+          </div>
+          <div class="advisor-tile-actions">
+            <button class="btn-send-message">Send Message</button>
+            <button class="btn-view-profile">View Profile</button>
+          </div>
+        </div>
+
+        <div class="advisor-tile">
+          <div class="advisor-tile-body">
+            <div class="advisor-tile-name">Julia K.</div>
+            <div class="advisor-tile-headline">GTM Advisor | Product-Led Growth & Sales Enablement</div>
+            <div class="advisor-tile-detail">Austin, TX</div>
+            <div class="advisor-tile-experience">Built GTM engines for 3 unicorns from $1M to $50M ARR. Expert in product-led growth, sales enablement, and market positioning for B2B SaaS. Previously led go-to-market at a top healthcare tech startup.</div>
+            <div class="advisor-tile-tags">
+              <span class="tag">GTM</span><span class="tag">PLG</span><span class="tag">Sales Enablement</span><span class="tag">B2B SaaS</span>
+            </div>
+            <div class="advisor-tile-meta">
+              <span>5.0 rating</span><span class="meta-dot"></span>
+              <span>67 sessions</span><span class="meta-dot"></span>
+              <span>9 clients</span><span class="meta-dot"></span>
+              <span>$225/hr</span>
+            </div>
+          </div>
+          <div class="advisor-tile-actions">
+            <button class="btn-send-message">Send Message</button>
+            <button class="btn-view-profile">View Profile</button>
+          </div>
+        </div>
+
+        <div class="advisor-tile">
+          <div class="advisor-tile-body">
+            <div class="advisor-tile-name">David P.</div>
+            <div class="advisor-tile-headline">Fractional CTO | Platform Architecture & Engineering Leadership</div>
+            <div class="advisor-tile-detail">Seattle, WA</div>
+            <div class="advisor-tile-experience">Former CTO at two Series C startups (one acquired). Specializes in platform architecture, cloud infrastructure, and scaling engineering teams from 5 to 80+. Hands-on experience with AI/ML product development and technical due diligence.</div>
+            <div class="advisor-tile-tags">
+              <span class="tag">Architecture</span><span class="tag">Eng Leadership</span><span class="tag">AI/ML</span><span class="tag">Cloud</span>
+            </div>
+            <div class="advisor-tile-meta">
+              <span>4.7 rating</span><span class="meta-dot"></span>
+              <span>53 sessions</span><span class="meta-dot"></span>
+              <span>7 clients</span><span class="meta-dot"></span>
+              <span>$275/hr</span>
+            </div>
+          </div>
+          <div class="advisor-tile-actions">
+            <button class="btn-send-message">Send Message</button>
+            <button class="btn-view-profile">View Profile</button>
+          </div>
+        </div>
+
+        <div class="advisor-tile">
+          <div class="advisor-tile-body">
+            <div class="advisor-tile-name">Lisa A.</div>
+            <div class="advisor-tile-headline">Fractional COO | Operations, Hiring & Culture at Scale</div>
+            <div class="advisor-tile-detail">Chicago, IL</div>
+            <div class="advisor-tile-experience">Scaled operations at 4 high-growth startups from seed to Series D. Expert in process optimization, organizational design, hiring systems, and culture building. Led cross-functional teams of 200+ across logistics and marketplace verticals.</div>
+            <div class="advisor-tile-tags">
+              <span class="tag">Operations</span><span class="tag">Hiring</span><span class="tag">Scaling</span><span class="tag">Org Design</span>
+            </div>
+            <div class="advisor-tile-meta">
+              <span>4.9 rating</span><span class="meta-dot"></span>
+              <span>91 sessions</span><span class="meta-dot"></span>
+              <span>14 clients</span><span class="meta-dot"></span>
+              <span>$200/hr</span>
+            </div>
+          </div>
+          <div class="advisor-tile-actions">
+            <button class="btn-send-message">Send Message</button>
+            <button class="btn-view-profile">View Profile</button>
+          </div>
+        </div>
+
+        <div class="advisor-tile">
+          <div class="advisor-tile-body">
+            <div class="advisor-tile-name">Robert T.</div>
+            <div class="advisor-tile-headline">Board Advisor | Governance, Fundraising & Executive Coaching</div>
+            <div class="advisor-tile-detail">Boston, MA</div>
+            <div class="advisor-tile-experience">3x CEO with 2 successful exits (combined $400M+). Advises boards on corporate governance, capital strategy, and executive coaching. Sits on 4 active boards across enterprise SaaS and deep tech. Trusted voice for founder-CEOs navigating growth inflections.</div>
+            <div class="advisor-tile-tags">
+              <span class="tag">Board</span><span class="tag">Fundraising</span><span class="tag">Leadership</span><span class="tag">Governance</span>
+            </div>
+            <div class="advisor-tile-meta">
+              <span>4.9 rating</span><span class="meta-dot"></span>
+              <span>145 sessions</span><span class="meta-dot"></span>
+              <span>22 clients</span><span class="meta-dot"></span>
+              <span>$350/hr</span>
+            </div>
+          </div>
+          <div class="advisor-tile-actions">
+            <button class="btn-send-message">Send Message</button>
+            <button class="btn-view-profile">View Profile</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- ===== ACTIVE ENGAGEMENTS PAGE ===== -->
+    <div class="page" id="page-engagements">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Your Engagements</div>
+          <div class="page-subtitle">Manage your advisor engagements, track progress, and stay on top of deliverables</div>
+        </div>
+        <button class="btn-black" onclick="openNewOpportunity()">
+          <span class="material-symbols-outlined" style="font-size:16px;">add</span>
+          New Opportunity
+        </button>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:16px;margin-bottom:20px;">
+
+        <!-- Sarah Chen — Active -->
+        <div class="card">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="avatar" style="background:#1E3A5F;color:#fff;width:44px;height:44px;">SC</div>
+            <div style="flex:1;">
+              <div class="flex justify-between items-center">
+                <div class="font-600">Sarah Chen</div>
+                <span class="badge badge-green">Active</span>
+              </div>
+              <div class="text-sm text-muted">Fractional CFO · 12 sessions · 3 months · $14,400 paid</div>
+            </div>
+          </div>
+          <div style="font-size:13.65px;color:var(--text-muted);margin-bottom:4px;">Financial planning, Series B prep, board deck review, and investor relations strategy.</div>
+          <div class="bar-progress" style="margin:8px 0;">
+            <div class="bar-fill" style="width:65%;"></div>
+          </div>
+          <div class="text-sm text-muted" style="margin-bottom:2px;">65% milestones completed</div>
+
+          <div class="eng-tile-grid">
+            <div class="eng-section">
+              <div class="eng-section-title">Milestones &amp; Deliverables</div>
+              <div class="eng-milestone">
+                <div class="eng-milestone-icon" style="background:var(--green);color:#fff;">✓</div>
+                <div class="eng-milestone-text">
+                  <div class="eng-milestone-name">Financial Model — Series B Readiness</div>
+                  <div class="eng-milestone-detail">3-year revenue projection, unit economics dashboard, and investor-ready P&L. Delivered Apr 8.</div>
+                </div>
+              </div>
+              <div class="eng-milestone">
+                <div class="eng-milestone-icon" style="background:var(--amber);color:#fff;">…</div>
+                <div class="eng-milestone-text">
+                  <div class="eng-milestone-name">Board Deck Review — Q1 Financials</div>
+                  <div class="eng-milestone-detail">Reviewing quarterly board deck with cash runway analysis, burn rate trends, and KPI summary. Due Apr 18.</div>
+                </div>
+              </div>
+              <div class="eng-milestone">
+                <div class="eng-milestone-icon" style="background:var(--border);color:var(--text-muted);">○</div>
+                <div class="eng-milestone-text">
+                  <div class="eng-milestone-name">Investor Data Room Setup</div>
+                  <div class="eng-milestone-detail">Organize cap table, financial statements, customer cohort data, and compliance docs for due diligence. Due May 1.</div>
+                </div>
+              </div>
+            </div>
+            <div class="eng-section">
+              <div class="eng-section-title">Recent Activity</div>
+              <div class="eng-activity-item">
+                <div class="eng-activity-dot" style="background:var(--green);"></div>
+                <div>
+                  <div class="eng-activity-text">Submitted financial model v2 with updated assumptions</div>
+                  <div class="eng-activity-time">2 hours ago</div>
+                </div>
+              </div>
+              <div class="eng-activity-item">
+                <div class="eng-activity-dot" style="background:var(--blue);"></div>
+                <div>
+                  <div class="eng-activity-text">Shared board deck draft for review</div>
+                  <div class="eng-activity-time">Yesterday</div>
+                </div>
+              </div>
+              <div class="eng-activity-item">
+                <div class="eng-activity-dot" style="background:var(--amber);"></div>
+                <div>
+                  <div class="eng-activity-text">Invoice #0042 processed — $4,800</div>
+                  <div class="eng-activity-time">2 days ago</div>
+                </div>
+              </div>
+              <div class="eng-activity-item">
+                <div class="eng-activity-dot" style="background:var(--text-light);"></div>
+                <div>
+                  <div class="eng-activity-text">Session completed — Financial Planning Review</div>
+                  <div class="eng-activity-time">3 days ago</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="eng-tile-actions">
+            <button class="btn-black" style="font-size:12.6px;padding:7px 16px;" onclick="navigate('messages',document.querySelector('[data-page=messages]'))">
+              <span class="material-symbols-outlined" style="font-size:15px;">chat_bubble_outline</span> Message
+            </button>
+            <button class="btn-outline" style="font-size:12.6px;padding:7px 16px;">View Details</button>
+          </div>
+        </div>
+
+        <!-- Michael Rivera — Active -->
+        <div class="card">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="avatar" style="background:#064E3B;color:#fff;width:44px;height:44px;">MR</div>
+            <div style="flex:1;">
+              <div class="flex justify-between items-center">
+                <div class="font-600">Michael Rivera</div>
+                <span class="badge badge-green">Active</span>
+              </div>
+              <div class="text-sm text-muted">Strategic Advisor · 8 sessions · 6 months · $18,000 paid</div>
+            </div>
+          </div>
+          <div style="font-size:13.65px;color:var(--text-muted);margin-bottom:4px;">APAC market entry strategy, partnership development, and regulatory compliance guidance.</div>
+          <div class="bar-progress" style="margin:8px 0;">
+            <div class="bar-fill" style="width:40%;"></div>
+          </div>
+          <div class="text-sm text-muted" style="margin-bottom:2px;">40% milestones completed</div>
+
+          <div class="eng-tile-grid">
+            <div class="eng-section">
+              <div class="eng-section-title">Milestones &amp; Deliverables</div>
+              <div class="eng-milestone">
+                <div class="eng-milestone-icon" style="background:var(--green);color:#fff;">✓</div>
+                <div class="eng-milestone-text">
+                  <div class="eng-milestone-name">APAC Market Entry Framework</div>
+                  <div class="eng-milestone-detail">Comprehensive market sizing for Japan, Singapore, and Australia with competitive landscape and regulatory overview. Completed Apr 5.</div>
+                </div>
+              </div>
+              <div class="eng-milestone">
+                <div class="eng-milestone-icon" style="background:var(--amber);color:#fff;">…</div>
+                <div class="eng-milestone-text">
+                  <div class="eng-milestone-name">Partner Channel Strategy</div>
+                  <div class="eng-milestone-detail">Identifying and scoring potential channel partners across APAC. Includes outreach templates and partnership term sheets. Due Apr 25.</div>
+                </div>
+              </div>
+              <div class="eng-milestone">
+                <div class="eng-milestone-icon" style="background:var(--border);color:var(--text-muted);">○</div>
+                <div class="eng-milestone-text">
+                  <div class="eng-milestone-name">Regulatory Compliance Playbook</div>
+                  <div class="eng-milestone-detail">Data privacy (PDPA, APPI), licensing requirements, and local entity setup guide for each target market. Due May 15.</div>
+                </div>
+              </div>
+            </div>
+            <div class="eng-section">
+              <div class="eng-section-title">Recent Activity</div>
+              <div class="eng-activity-item">
+                <div class="eng-activity-dot" style="background:var(--blue);"></div>
+                <div>
+                  <div class="eng-activity-text">Shared APAC market report with partner shortlist</div>
+                  <div class="eng-activity-time">5 hours ago</div>
+                </div>
+              </div>
+              <div class="eng-activity-item">
+                <div class="eng-activity-dot" style="background:var(--green);"></div>
+                <div>
+                  <div class="eng-activity-text">Completed session — APAC Expansion Strategy</div>
+                  <div class="eng-activity-time">2 days ago</div>
+                </div>
+              </div>
+              <div class="eng-activity-item">
+                <div class="eng-activity-dot" style="background:var(--text-light);"></div>
+                <div>
+                  <div class="eng-activity-text">Added 3 new partner prospects to tracker</div>
+                  <div class="eng-activity-time">4 days ago</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="eng-tile-actions">
+            <button class="btn-black" style="font-size:12.6px;padding:7px 16px;" onclick="navigate('messages',document.querySelector('[data-page=messages]'))">
+              <span class="material-symbols-outlined" style="font-size:15px;">chat_bubble_outline</span> Message
+            </button>
+            <button class="btn-outline" style="font-size:12.6px;padding:7px 16px;">View Details</button>
+          </div>
+        </div>
+
+        <!-- Julia Kim — Active -->
+        <div class="card">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="avatar" style="background:#5B21B6;color:#fff;width:44px;height:44px;">JK</div>
+            <div style="flex:1;">
+              <div class="flex justify-between items-center">
+                <div class="font-600">Julia Kim</div>
+                <span class="badge badge-green">Active</span>
+              </div>
+              <div class="text-sm text-muted">GTM Advisor · 6 sessions · 3 months · $8,100 paid</div>
+            </div>
+          </div>
+          <div style="font-size:13.65px;color:var(--text-muted);margin-bottom:4px;">Go-to-market playbook, ICP definition, sales enablement, and content strategy.</div>
+          <div class="bar-progress" style="margin:8px 0;">
+            <div class="bar-fill" style="width:80%;"></div>
+          </div>
+          <div class="text-sm text-muted" style="margin-bottom:2px;">80% milestones completed</div>
+
+          <div class="eng-tile-grid">
+            <div class="eng-section">
+              <div class="eng-section-title">Milestones &amp; Deliverables</div>
+              <div class="eng-milestone">
+                <div class="eng-milestone-icon" style="background:var(--green);color:#fff;">✓</div>
+                <div class="eng-milestone-text">
+                  <div class="eng-milestone-name">GTM Playbook — Phase 1</div>
+                  <div class="eng-milestone-detail">ICP definition, buyer personas, value props, positioning matrix, and competitive battle cards. Completed Mar 28.</div>
+                </div>
+              </div>
+              <div class="eng-milestone">
+                <div class="eng-milestone-icon" style="background:var(--green);color:#fff;">✓</div>
+                <div class="eng-milestone-text">
+                  <div class="eng-milestone-name">Sales Enablement Kit</div>
+                  <div class="eng-milestone-detail">Pitch deck, objection handling guide, demo script, and ROI calculator for enterprise accounts. Completed Apr 2.</div>
+                </div>
+              </div>
+              <div class="eng-milestone">
+                <div class="eng-milestone-icon" style="background:var(--amber);color:#fff;">…</div>
+                <div class="eng-milestone-text">
+                  <div class="eng-milestone-name">Content Strategy &amp; Calendar</div>
+                  <div class="eng-milestone-detail">90-day content plan aligned to funnel stages, including SEO topics, webinar themes, and case study pipeline. Due Apr 20.</div>
+                </div>
+              </div>
+            </div>
+            <div class="eng-section">
+              <div class="eng-section-title">Recent Activity</div>
+              <div class="eng-activity-item">
+                <div class="eng-activity-dot" style="background:var(--green);"></div>
+                <div>
+                  <div class="eng-activity-text">Delivered sales enablement kit with all 4 assets</div>
+                  <div class="eng-activity-time">1 day ago</div>
+                </div>
+              </div>
+              <div class="eng-activity-item">
+                <div class="eng-activity-dot" style="background:var(--text-light);"></div>
+                <div>
+                  <div class="eng-activity-text">Scheduled GTM review session for Apr 16</div>
+                  <div class="eng-activity-time">2 days ago</div>
+                </div>
+              </div>
+              <div class="eng-activity-item">
+                <div class="eng-activity-dot" style="background:var(--blue);"></div>
+                <div>
+                  <div class="eng-activity-text">Shared draft content calendar for feedback</div>
+                  <div class="eng-activity-time">3 days ago</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="eng-tile-actions">
+            <button class="btn-black" style="font-size:12.6px;padding:7px 16px;" onclick="navigate('messages',document.querySelector('[data-page=messages]'))">
+              <span class="material-symbols-outlined" style="font-size:15px;">chat_bubble_outline</span> Message
+            </button>
+            <button class="btn-outline" style="font-size:12.6px;padding:7px 16px;">View Details</button>
+          </div>
+        </div>
+
+        <!-- David Park — Onboarding -->
+        <div class="card">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="avatar" style="background:#B45309;color:#fff;width:44px;height:44px;">DP</div>
+            <div style="flex:1;">
+              <div class="flex justify-between items-center">
+                <div class="font-600">David Park</div>
+                <span class="badge badge-amber">Onboarding</span>
+              </div>
+              <div class="text-sm text-muted">Fractional CTO · 1 session · 6 months · $2,200 paid</div>
+            </div>
+          </div>
+          <div style="font-size:13.65px;color:var(--text-muted);margin-bottom:4px;">Platform architecture review, tech stack assessment, and engineering hiring plan.</div>
+          <div class="bar-progress" style="margin:8px 0;">
+            <div class="bar-fill" style="width:5%;"></div>
+          </div>
+          <div class="text-sm text-muted" style="margin-bottom:2px;">5% milestones completed</div>
+
+          <div class="eng-tile-grid">
+            <div class="eng-section">
+              <div class="eng-section-title">Milestones &amp; Deliverables</div>
+              <div class="eng-milestone">
+                <div class="eng-milestone-icon" style="background:var(--amber);color:#fff;">…</div>
+                <div class="eng-milestone-text">
+                  <div class="eng-milestone-name">Tech Stack Audit &amp; Recommendations</div>
+                  <div class="eng-milestone-detail">Full audit of current architecture, infra costs, tech debt assessment, and migration roadmap with prioritized recommendations. Due Apr 22.</div>
+                </div>
+              </div>
+              <div class="eng-milestone">
+                <div class="eng-milestone-icon" style="background:var(--border);color:var(--text-muted);">○</div>
+                <div class="eng-milestone-text">
+                  <div class="eng-milestone-name">Engineering Hiring Plan</div>
+                  <div class="eng-milestone-detail">Role definitions, leveling framework, interview rubrics, and 6-month headcount plan for scaling from 5 to 20 engineers. Due May 10.</div>
+                </div>
+              </div>
+              <div class="eng-milestone">
+                <div class="eng-milestone-icon" style="background:var(--border);color:var(--text-muted);">○</div>
+                <div class="eng-milestone-text">
+                  <div class="eng-milestone-name">Platform Architecture Blueprint</div>
+                  <div class="eng-milestone-detail">Microservices design, API gateway strategy, CI/CD pipeline setup, and observability stack recommendations. Due Jun 1.</div>
+                </div>
+              </div>
+            </div>
+            <div class="eng-section">
+              <div class="eng-section-title">Recent Activity</div>
+              <div class="eng-activity-item">
+                <div class="eng-activity-dot" style="background:var(--green);"></div>
+                <div>
+                  <div class="eng-activity-text">Completed onboarding session — intro and scope alignment</div>
+                  <div class="eng-activity-time">1 day ago</div>
+                </div>
+              </div>
+              <div class="eng-activity-item">
+                <div class="eng-activity-dot" style="background:var(--blue);"></div>
+                <div>
+                  <div class="eng-activity-text">Received codebase access and infra credentials</div>
+                  <div class="eng-activity-time">2 days ago</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="eng-tile-actions">
+            <button class="btn-black" style="font-size:12.6px;padding:7px 16px;" onclick="navigate('messages',document.querySelector('[data-page=messages]'))">
+              <span class="material-symbols-outlined" style="font-size:15px;">chat_bubble_outline</span> Message
+            </button>
+            <button class="btn-outline" style="font-size:12.6px;padding:7px 16px;">View Details</button>
+          </div>
+        </div>
+
+        <!-- Natasha Patel — Past Engagement -->
+        <div class="card" style="opacity:0.75;">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="avatar" style="background:#6B7280;color:#fff;width:44px;height:44px;">NP</div>
+            <div style="flex:1;">
+              <div class="flex justify-between items-center">
+                <div class="font-600">Natasha Patel</div>
+                <span class="badge badge-gray">Past Engagement</span>
+              </div>
+              <div class="text-sm text-muted">Fractional CMO · 18 sessions · 4 months · $9,600 paid</div>
+            </div>
+          </div>
+          <div style="font-size:13.65px;color:var(--text-muted);margin-bottom:4px;">Brand positioning, demand gen strategy, and marketing team structure for Series A launch.</div>
+          <div class="bar-progress" style="margin:8px 0;">
+            <div class="bar-fill" style="width:100%;"></div>
+          </div>
+          <div class="text-sm text-muted" style="margin-bottom:2px;">Completed · Dec 2025</div>
+
+          <div class="eng-tile-grid">
+            <div class="eng-section">
+              <div class="eng-section-title">Milestones &amp; Deliverables</div>
+              <div class="eng-milestone">
+                <div class="eng-milestone-icon" style="background:var(--green);color:#fff;">✓</div>
+                <div class="eng-milestone-text">
+                  <div class="eng-milestone-name">Brand Positioning &amp; Messaging</div>
+                  <div class="eng-milestone-detail">Brand narrative, messaging framework, tone-of-voice guide, and tagline options for Series A launch website. Completed Oct 2025.</div>
+                </div>
+              </div>
+              <div class="eng-milestone">
+                <div class="eng-milestone-icon" style="background:var(--green);color:#fff;">✓</div>
+                <div class="eng-milestone-text">
+                  <div class="eng-milestone-name">Demand Gen Playbook</div>
+                  <div class="eng-milestone-detail">Paid acquisition strategy, SEO roadmap, email nurture sequences, and attribution model setup. Completed Nov 2025.</div>
+                </div>
+              </div>
+              <div class="eng-milestone">
+                <div class="eng-milestone-icon" style="background:var(--green);color:#fff;">✓</div>
+                <div class="eng-milestone-text">
+                  <div class="eng-milestone-name">Marketing Team Structure</div>
+                  <div class="eng-milestone-detail">Org chart, role descriptions, agency vs. in-house analysis, and first 3 hires recommendation with JDs. Completed Dec 2025.</div>
+                </div>
+              </div>
+            </div>
+            <div class="eng-section">
+              <div class="eng-section-title">Engagement Summary</div>
+              <div class="eng-activity-item">
+                <div class="eng-activity-dot" style="background:var(--green);"></div>
+                <div>
+                  <div class="eng-activity-text">All 3 milestones delivered on time</div>
+                  <div class="eng-activity-time">Dec 2025</div>
+                </div>
+              </div>
+              <div class="eng-activity-item">
+                <div class="eng-activity-dot" style="background:var(--text-light);"></div>
+                <div>
+                  <div class="eng-activity-text">Engagement closed with 5-star review</div>
+                  <div class="eng-activity-time">Dec 15, 2025</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="eng-tile-actions">
+            <button class="btn-outline" style="font-size:12.6px;padding:7px 16px;">View Details</button>
+            <button class="btn-outline" style="font-size:12.6px;padding:7px 16px;">Re-engage</button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- ===== SESSIONS PAGE ===== -->
+    <div class="page" id="page-sessions">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Sessions</div>
+          <div class="page-subtitle">Manage your advisor sessions</div>
+        </div>
+        <button class="btn-black">
+          <span class="material-symbols-outlined" style="font-size:16px;">add</span>
+          Book Session
+        </button>
+      </div>
+
+      <div class="tabs" id="session-tabs">
+        <div class="tab active" onclick="switchSessionTab('upcoming',this)">Upcoming (3)</div>
+        <div class="tab" onclick="switchSessionTab('completed',this)">Completed (29)</div>
+        <div class="tab" onclick="switchSessionTab('cancelled',this)">Cancelled (2)</div>
+      </div>
+
+      <div id="session-upcoming">
+        <div class="session-card">
+          <div class="avatar" style="background:#1E3A5F;color:#fff;width:42px;height:42px;">SC</div>
+          <div class="session-card-info">
+            <div class="font-600">Financial Planning Review</div>
+            <div class="text-sm text-muted">Sarah Chen · Fractional CFO</div>
+            <div class="text-sm text-muted mt-1">Tomorrow, Apr 12 · 10:00 AM — 11:00 AM</div>
+            <div class="session-card-actions">
+              <button class="btn-black" style="font-size:12.6px;padding:6px 14px;">Join Call</button>
+              <button class="btn-outline" style="font-size:12.6px;padding:6px 14px;">Reschedule</button>
+            </div>
+          </div>
+          <span class="badge badge-blue" style="position:absolute;top:18px;right:20px;">Video Call</span>
+        </div>
+
+        <div class="session-card">
+          <div class="avatar" style="background:#064E3B;color:#fff;width:42px;height:42px;">MR</div>
+          <div class="session-card-info">
+            <div class="font-600">APAC Expansion Strategy</div>
+            <div class="text-sm text-muted">Michael Rivera · Strategic Advisor</div>
+            <div class="text-sm text-muted mt-1">Wed, Apr 15 · 2:00 PM — 2:45 PM</div>
+            <div class="session-card-actions">
+              <button class="btn-outline" style="font-size:12.6px;padding:6px 14px;">Reschedule</button>
+              <button class="btn-outline" style="font-size:12.6px;padding:6px 14px;">Cancel</button>
+            </div>
+          </div>
+          <span class="badge badge-blue" style="position:absolute;top:18px;right:20px;">Video Call</span>
+        </div>
+
+        <div class="session-card">
+          <div class="avatar" style="background:#5B21B6;color:#fff;width:42px;height:42px;">JK</div>
+          <div class="session-card-info">
+            <div class="font-600">Go-to-Market Review</div>
+            <div class="text-sm text-muted">Julia Kim · GTM Advisor</div>
+            <div class="text-sm text-muted mt-1">Thu, Apr 16 · 11:00 AM — 11:30 AM</div>
+            <div class="session-card-actions">
+              <button class="btn-outline" style="font-size:12.6px;padding:6px 14px;">Reschedule</button>
+              <button class="btn-outline" style="font-size:12.6px;padding:6px 14px;">Cancel</button>
+            </div>
+          </div>
+          <span class="badge badge-gray" style="position:absolute;top:18px;right:20px;">Phone Call</span>
+        </div>
+      </div>
+
+      <div id="session-completed" style="display:none;">
+        <div class="session-card">
+          <div class="avatar" style="background:#1E3A5F;color:#fff;width:42px;height:42px;">SC</div>
+          <div class="session-card-info">
+            <div class="font-600">Series B Financial Model Review</div>
+            <div class="text-sm text-muted">Sarah Chen · Fractional CFO</div>
+            <div class="text-sm text-muted mt-1">Apr 8, 2026 · 10:00 AM — 11:00 AM</div>
+            <div class="session-card-actions">
+              <span class="text-sm text-muted"><span class="star">★★★★★</span> 5.0</span>
+              <button class="btn-outline" style="font-size:12.6px;padding:6px 14px;">View Notes</button>
+            </div>
+          </div>
+        </div>
+        <div class="session-card">
+          <div class="avatar" style="background:#064E3B;color:#fff;width:42px;height:42px;">MR</div>
+          <div class="session-card-info">
+            <div class="font-600">APAC Market Research Debrief</div>
+            <div class="text-sm text-muted">Michael Rivera · Strategic Advisor</div>
+            <div class="text-sm text-muted mt-1">Apr 5, 2026 · 2:00 PM — 3:00 PM</div>
+            <div class="session-card-actions">
+              <span class="text-sm text-muted"><span class="star">★★★★★</span> 5.0</span>
+              <button class="btn-outline" style="font-size:12.6px;padding:6px 14px;">View Notes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="session-cancelled" style="display:none;">
+        <div class="session-card" style="opacity:0.6;">
+          <div class="avatar" style="background:#5B21B6;color:#fff;width:42px;height:42px;">JK</div>
+          <div class="session-card-info">
+            <div class="font-600">GTM Sprint Planning</div>
+            <div class="text-sm text-muted">Julia Kim · GTM Advisor</div>
+            <div class="text-sm text-muted mt-1">Mar 20, 2026 · Cancelled by advisor</div>
+          </div>
+          <span class="badge badge-red" style="position:absolute;top:18px;right:20px;">Cancelled</span>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ===== MESSAGES PAGE ===== -->
+    <div class="page" id="page-messages">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Messages</div>
+          <div class="page-subtitle">Chat with your advisors</div>
+        </div>
+      </div>
+
+      <div class="chat-layout">
+        <div class="chat-list">
+          <div class="chat-list-header">
+            <input class="chat-list-search" placeholder="Search conversations..." />
+          </div>
+          <div class="chat-item active">
+            <div class="avatar-sm" style="background:#1E3A5F;">SC</div>
+            <div class="chat-item-info">
+              <div class="chat-item-name"><span class="online-dot"></span>Sarah Chen</div>
+              <div class="chat-item-sub">Fractional CFO</div>
+              <div class="chat-item-preview">Here's the updated financial model...</div>
+            </div>
+            <div class="chat-item-time">2h ago</div>
+          </div>
+          <div class="chat-item">
+            <div class="avatar-sm" style="background:#064E3B;">MR</div>
+            <div class="chat-item-info">
+              <div class="chat-item-name">Michael Rivera</div>
+              <div class="chat-item-sub">Strategic Advisor</div>
+              <div class="chat-item-preview">The APAC report is ready for review</div>
+            </div>
+            <div class="chat-item-time">5h ago</div>
+          </div>
+          <div class="chat-item">
+            <div class="avatar-sm" style="background:#5B21B6;">JK</div>
+            <div class="chat-item-info">
+              <div class="chat-item-name">Julia Kim</div>
+              <div class="chat-item-sub">GTM Advisor</div>
+              <div class="chat-item-preview">Let's discuss the ICP findings</div>
+            </div>
+            <div class="chat-item-time">1d ago</div>
+          </div>
+          <div class="chat-item">
+            <div class="avatar-sm" style="background:#B45309;">DP</div>
+            <div class="chat-item-info">
+              <div class="chat-item-name">David Park</div>
+              <div class="chat-item-sub">Fractional CTO</div>
+              <div class="chat-item-preview">Welcome aboard! Let's get started.</div>
+            </div>
+            <div class="chat-item-time">3d ago</div>
+          </div>
+        </div>
+
+        <div class="chat-window">
+          <div class="chat-header">
+            <div class="chat-header-info">
+              <h3><span class="online-dot"></span>Sarah Chen</h3>
+              <div class="chat-header-sub">Fractional CFO · Last active just now</div>
+            </div>
+            <button class="btn-outline" style="font-size:12.6px;padding:5px 12px;">
+              <span class="material-symbols-outlined" style="font-size:14px;">videocam</span> Call
+            </button>
+          </div>
+
+          <div class="chat-messages">
+            <div class="msg msg-in">
+              <div class="msg-bubble">Hi Alex! I've finished the Series B financial model revision. I've updated the revenue projections based on our Q1 actuals.</div>
+              <div class="msg-time">Today, 11:14 AM</div>
+            </div>
+            <div class="msg msg-in">
+              <div class="msg-bubble">I also added a new sensitivity analysis tab that models 3 scenarios for your APAC expansion costs.</div>
+              <div class="msg-time">Today, 11:15 AM</div>
+            </div>
+            <div class="msg msg-out">
+              <div class="msg-bubble">This looks great, Sarah! Let me review the sensitivity analysis before our call tomorrow.</div>
+              <div class="msg-time">Today, 11:42 AM</div>
+            </div>
+            <div class="msg msg-out">
+              <div class="msg-bubble">Quick question — did you factor in the new pricing tiers we discussed last week?</div>
+              <div class="msg-time">Today, 11:43 AM</div>
+            </div>
+            <div class="msg msg-in">
+              <div class="msg-bubble">Yes! The new pricing tiers are reflected in Scenario B. I'll walk you through it tomorrow in detail.</div>
+              <div class="msg-time">Today, 12:02 PM</div>
+            </div>
+          </div>
+
+          <div class="chat-input-area">
+            <input class="chat-input" placeholder="Type a message..." />
+            <button class="btn-black" style="padding:9px 16px;">
+              <span class="material-symbols-outlined" style="font-size:16px;">send</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ===== PUBLISHED OPPORTUNITIES PAGE ===== -->
+    <div class="page" id="page-opportunities">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Published Opportunities</div>
+          <div class="page-subtitle">Manage the opportunities you've posted for advisors</div>
+        </div>
+        <button class="btn-black" onclick="openNewOpportunity()">
+          <span class="material-symbols-outlined" style="font-size:16px;">add</span>
+          New Opportunity
+        </button>
+      </div>
+
+      <div class="tabs" id="opp-tabs">
+        <div class="tab active" onclick="switchOppTab('active',this)">Active (3)</div>
+        <div class="tab" onclick="switchOppTab('draft',this)">Drafts (1)</div>
+        <div class="tab" onclick="switchOppTab('closed',this)">Closed (2)</div>
+      </div>
+
+      <!-- Active Opportunities -->
+      <div id="opp-active">
+        <div class="grid-2" style="gap:16px;">
+          <div class="opp-card">
+            <div class="flex justify-between items-start mb-2">
+              <div>
+                <div class="flex items-center gap-2"><span class="font-600" style="font-size:15.75px;">Fractional CFO — Series B Prep</span></div>
+                <div style="font-size:12.6px;color:var(--text-muted);margin-top:2px;">FinTech · Series B</div>
+              </div>
+              <span class="badge badge-green">● Active</span>
+            </div>
+            <div style="font-size:12.6px;color:var(--text-muted);margin:8px 0;">Need an experienced CFO to help with financial modeling, investor deck preparation, and Series B fundraising strategy.</div>
+            <div class="opp-meta-grid">
+              <div class="opp-meta-item"><div class="opp-meta-label">Budget</div><div class="opp-meta-value">$8K–$15K/mo</div></div>
+              <div class="opp-meta-item"><div class="opp-meta-label">Time</div><div class="opp-meta-value">8–10 hrs/week</div></div>
+              <div class="opp-meta-item"><div class="opp-meta-label">Duration</div><div class="opp-meta-value">6 months</div></div>
+              <div class="opp-meta-item"><div class="opp-meta-label">Responses</div><div class="opp-meta-value">7 advisors</div></div>
+            </div>
+            <div class="flex gap-2 mb-3">
+              <span class="tag">Financial Modeling</span><span class="tag">Fundraising</span><span class="tag">IR</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span style="font-size:11.55px;color:var(--text-muted);">Posted 12 days ago</span>
+              <div class="flex gap-2">
+                <button class="btn-outline" style="font-size:12.6px;padding:6px 12px;">Edit</button>
+                <button class="btn-black" style="font-size:12.6px;padding:6px 12px;">View Responses</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="opp-card">
+            <div class="flex justify-between items-start mb-2">
+              <div>
+                <div class="flex items-center gap-2"><span class="font-600" style="font-size:15.75px;">Strategic Advisor — APAC Expansion</span></div>
+                <div style="font-size:12.6px;color:var(--text-muted);margin-top:2px;">Payments · Series B</div>
+              </div>
+              <span class="badge badge-green">● Active</span>
+            </div>
+            <div style="font-size:12.6px;color:var(--text-muted);margin:8px 0;">Looking for an advisor with deep APAC market knowledge, enterprise partnerships experience, and regulatory navigation.</div>
+            <div class="opp-meta-grid">
+              <div class="opp-meta-item"><div class="opp-meta-label">Budget</div><div class="opp-meta-value">$10K–$18K/mo</div></div>
+              <div class="opp-meta-item"><div class="opp-meta-label">Time</div><div class="opp-meta-value">8–10 hrs/week</div></div>
+              <div class="opp-meta-item"><div class="opp-meta-label">Duration</div><div class="opp-meta-value">12 months</div></div>
+              <div class="opp-meta-item"><div class="opp-meta-label">Responses</div><div class="opp-meta-value">5 advisors</div></div>
+            </div>
+            <div class="flex gap-2 mb-3">
+              <span class="tag">APAC</span><span class="tag">Partnerships</span><span class="tag">Regulatory</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span style="font-size:11.55px;color:var(--text-muted);">Posted 8 days ago</span>
+              <div class="flex gap-2">
+                <button class="btn-outline" style="font-size:12.6px;padding:6px 12px;">Edit</button>
+                <button class="btn-black" style="font-size:12.6px;padding:6px 12px;">View Responses</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="opp-card">
+            <div class="flex justify-between items-start mb-2">
+              <div>
+                <div class="flex items-center gap-2"><span class="font-600" style="font-size:15.75px;">GTM Advisor — Product Launch</span></div>
+                <div style="font-size:12.6px;color:var(--text-muted);margin-top:2px;">SaaS · Series A</div>
+              </div>
+              <span class="badge badge-green">● Active</span>
+            </div>
+            <div style="font-size:12.6px;color:var(--text-muted);margin:8px 0;">Need help building go-to-market playbook, defining ICP, setting up sales enablement, and content strategy for product launch.</div>
+            <div class="opp-meta-grid">
+              <div class="opp-meta-item"><div class="opp-meta-label">Budget</div><div class="opp-meta-value">$5K–$9K/mo</div></div>
+              <div class="opp-meta-item"><div class="opp-meta-label">Time</div><div class="opp-meta-value">6–8 hrs/week</div></div>
+              <div class="opp-meta-item"><div class="opp-meta-label">Duration</div><div class="opp-meta-value">3 months</div></div>
+              <div class="opp-meta-item"><div class="opp-meta-label">Responses</div><div class="opp-meta-value">11 advisors</div></div>
+            </div>
+            <div class="flex gap-2 mb-3">
+              <span class="tag">GTM</span><span class="tag">ICP</span><span class="tag">Sales Enablement</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span style="font-size:11.55px;color:var(--text-muted);">Posted 3 days ago</span>
+              <div class="flex gap-2">
+                <button class="btn-outline" style="font-size:12.6px;padding:6px 12px;">Edit</button>
+                <button class="btn-black" style="font-size:12.6px;padding:6px 12px;">View Responses</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Draft Opportunities -->
+      <div id="opp-draft" style="display:none;">
+        <div class="grid-2" style="gap:16px;">
+          <div class="opp-card" style="border-style:dashed;">
+            <div class="flex justify-between items-start mb-2">
+              <div>
+                <div class="flex items-center gap-2"><span class="font-600" style="font-size:15.75px;">Fractional CTO — Platform Architecture</span></div>
+                <div style="font-size:12.6px;color:var(--text-muted);margin-top:2px;">Technology</div>
+              </div>
+              <span class="badge badge-amber">Draft</span>
+            </div>
+            <div style="font-size:12.6px;color:var(--text-muted);margin:8px 0;">Looking for a CTO to review our platform architecture, assess tech stack, and build an engineering hiring plan...</div>
+            <div style="margin-top:14px;" class="flex justify-between items-center">
+              <span style="font-size:11.55px;color:var(--text-muted);">Last edited 2 days ago</span>
+              <div class="flex gap-2">
+                <button class="btn-outline" style="font-size:12.6px;padding:6px 12px;">Edit Draft</button>
+                <button class="btn-black" style="font-size:12.6px;padding:6px 12px;">Publish</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Closed Opportunities -->
+      <div id="opp-closed" style="display:none;">
+        <div class="grid-2" style="gap:16px;">
+          <div class="opp-card" style="opacity:0.65;">
+            <div class="flex justify-between items-start mb-2">
+              <div>
+                <div class="font-600" style="font-size:15.75px;">Board Advisor — Governance</div>
+                <div style="font-size:12.6px;color:var(--text-muted);margin-top:2px;">Corporate Governance</div>
+              </div>
+              <span class="badge badge-gray">Closed</span>
+            </div>
+            <div style="font-size:12.6px;color:var(--text-muted);margin:8px 0;">Board governance advisory for quarterly planning, exec team alignment, and succession planning.</div>
+            <div class="flex justify-between items-center mt-3">
+              <span style="font-size:11.55px;color:var(--text-muted);">Closed 3 weeks ago · Filled</span>
+              <button class="btn-outline" style="font-size:12.6px;padding:6px 12px;">Repost</button>
+            </div>
+          </div>
+          <div class="opp-card" style="opacity:0.65;">
+            <div class="flex justify-between items-start mb-2">
+              <div>
+                <div class="font-600" style="font-size:15.75px;">Marketing Advisor — Brand Strategy</div>
+                <div style="font-size:12.6px;color:var(--text-muted);margin-top:2px;">B2B Marketing</div>
+              </div>
+              <span class="badge badge-gray">Closed</span>
+            </div>
+            <div style="font-size:12.6px;color:var(--text-muted);margin:8px 0;">Brand repositioning, messaging framework, and marketing team structure advisory.</div>
+            <div class="flex justify-between items-center mt-3">
+              <span style="font-size:11.55px;color:var(--text-muted);">Closed 6 weeks ago · Filled</span>
+              <button class="btn-outline" style="font-size:12.6px;padding:6px 12px;">Repost</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ===== MY PROFILE PAGE ===== -->
+    <div class="page" id="page-profile">
+      <div class="page-header">
+        <div>
+          <div class="page-title">My Profile</div>
+          <div class="page-subtitle">Manage your company and personal information</div>
+        </div>
+        <button class="btn-black">Save Changes</button>
+      </div>
+
+      <div class="grid-2" style="gap:20px;">
+        <div class="card">
+          <div class="section-title mb-3">Personal Information</div>
+          <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px;">
+            <div style="width:64px;height:64px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:600;">AW</div>
+            <div>
+              <div class="font-600" style="font-size:16px;">Alex Walker</div>
+              <div class="text-sm text-muted">CEO & Co-Founder</div>
+              <div style="font-size:11.55px;color:var(--blue);cursor:pointer;margin-top:2px;">Change photo</div>
+            </div>
+          </div>
+          <div class="form-row mb-3">
+            <div class="form-group">
+              <label class="form-label">Full Name</label>
+              <input class="form-input" value="Alex Walker" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email</label>
+              <input class="form-input" value="alex@prismfintech.com" />
+            </div>
+          </div>
+          <div class="form-row mb-3">
+            <div class="form-group">
+              <label class="form-label">Title</label>
+              <input class="form-input" value="CEO & Co-Founder" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Phone</label>
+              <input class="form-input" value="+1 (415) 555-0142" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Location</label>
+            <input class="form-input" value="San Francisco, CA" />
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="section-title mb-3">Company Information</div>
+          <div class="form-row mb-3">
+            <div class="form-group">
+              <label class="form-label">Company Name</label>
+              <input class="form-input" value="Prism FinTech" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Industry</label>
+              <input class="form-input" value="Financial Technology" />
+            </div>
+          </div>
+          <div class="form-row mb-3">
+            <div class="form-group">
+              <label class="form-label">Stage</label>
+              <select class="form-input">
+                <option>Pre-Seed</option>
+                <option>Seed</option>
+                <option>Series A</option>
+                <option selected>Series B</option>
+                <option>Series C+</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Company Size</label>
+              <input class="form-input" value="60–90 employees" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Company Website</label>
+            <input class="form-input" value="https://prismfintech.com" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Company Description</label>
+            <textarea class="form-input" rows="3">Prism FinTech is a payments platform expanding into APAC, serving enterprise clients with innovative payment infrastructure and compliance solutions.</textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+
+<!-- ===== NEW OPPORTUNITY MODAL ===== -->
+<div class="modal-overlay" id="new-opp-modal">
+  <div class="modal" style="width:680px;">
+    <button class="modal-close" onclick="closeNewOpportunity()">✕</button>
+    <div class="modal-title">Post a New Opportunity</div>
+    <div class="modal-subtitle">Describe what you need help with, and we'll match you with the right advisors.</div>
+
+    <!-- Stepper -->
+    <div class="stepper" id="opp-stepper">
+      <div class="stepper-step active" id="step-1-dot">Basics</div>
+      <div class="stepper-step" id="step-2-dot">Details</div>
+      <div class="stepper-step" id="step-3-dot">Requirements</div>
+      <div class="stepper-step" id="step-4-dot">Review</div>
+    </div>
+
+    <!-- Step 1: Basics -->
+    <div id="opp-step-1">
+      <div class="form-group">
+        <label class="form-label">Opportunity Title *</label>
+        <input class="form-input" id="opp-title" placeholder="e.g., Fractional CFO — Series B Fundraising" />
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Advisor Role *</label>
+          <select class="form-input" id="opp-role">
+            <option value="">Select a role...</option>
+            <option>Fractional CFO</option>
+            <option>Fractional CTO</option>
+            <option>Fractional COO</option>
+            <option>Strategic Advisor</option>
+            <option>Board Advisor</option>
+            <option>GTM Advisor</option>
+            <option>Marketing Advisor</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Industry *</label>
+          <select class="form-input" id="opp-industry">
+            <option value="">Select industry...</option>
+            <option>FinTech</option>
+            <option>SaaS</option>
+            <option>AI / ML</option>
+            <option>Biotech</option>
+            <option>E-Commerce</option>
+            <option>Healthcare</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Description *</label>
+        <textarea class="form-input" id="opp-desc" rows="4" placeholder="Describe what you need help with, key challenges, and what success looks like..."></textarea>
+      </div>
+      <div style="display:flex;justify-content:flex-end;margin-top:20px;">
+        <button class="btn-black" onclick="goToStep(2)">Continue →</button>
+      </div>
+    </div>
+
+    <!-- Step 2: Details -->
+    <div id="opp-step-2" style="display:none;">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Budget Range (monthly) *</label>
+          <div class="form-row" style="gap:8px;">
+            <input class="form-input" placeholder="Min ($)" />
+            <input class="form-input" placeholder="Max ($)" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Time Commitment *</label>
+          <select class="form-input">
+            <option value="">Select...</option>
+            <option>2–4 hrs/week</option>
+            <option>4–6 hrs/week</option>
+            <option>6–8 hrs/week</option>
+            <option>8–10 hrs/week</option>
+            <option>10+ hrs/week</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Duration *</label>
+          <select class="form-input">
+            <option value="">Select...</option>
+            <option>1 month</option>
+            <option>3 months</option>
+            <option>6 months</option>
+            <option>12 months</option>
+            <option>Ongoing</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Priority</label>
+          <select class="form-input">
+            <option>High</option>
+            <option>Medium</option>
+            <option>Low</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Company Stage</label>
+        <select class="form-input">
+          <option>Pre-Seed</option>
+          <option>Seed</option>
+          <option>Series A</option>
+          <option selected>Series B</option>
+          <option>Series C+</option>
+          <option>Growth / Public</option>
+        </select>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-top:20px;">
+        <button class="btn-outline" onclick="goToStep(1)">← Back</button>
+        <button class="btn-black" onclick="goToStep(3)">Continue →</button>
+      </div>
+    </div>
+
+    <!-- Step 3: Requirements -->
+    <div id="opp-step-3" style="display:none;">
+      <div class="form-group">
+        <label class="form-label">Required Skills (select all that apply)</label>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;" id="skill-tags">
+          <span class="tag" style="cursor:pointer;" onclick="this.classList.toggle('selected')">Financial Modeling</span>
+          <span class="tag" style="cursor:pointer;" onclick="this.classList.toggle('selected')">Fundraising</span>
+          <span class="tag" style="cursor:pointer;" onclick="this.classList.toggle('selected')">GTM Strategy</span>
+          <span class="tag" style="cursor:pointer;" onclick="this.classList.toggle('selected')">Sales Enablement</span>
+          <span class="tag" style="cursor:pointer;" onclick="this.classList.toggle('selected')">Product Strategy</span>
+          <span class="tag" style="cursor:pointer;" onclick="this.classList.toggle('selected')">Engineering Mgmt</span>
+          <span class="tag" style="cursor:pointer;" onclick="this.classList.toggle('selected')">APAC Markets</span>
+          <span class="tag" style="cursor:pointer;" onclick="this.classList.toggle('selected')">Partnerships</span>
+          <span class="tag" style="cursor:pointer;" onclick="this.classList.toggle('selected')">Regulatory</span>
+          <span class="tag" style="cursor:pointer;" onclick="this.classList.toggle('selected')">Brand Strategy</span>
+          <span class="tag" style="cursor:pointer;" onclick="this.classList.toggle('selected')">Operations</span>
+          <span class="tag" style="cursor:pointer;" onclick="this.classList.toggle('selected')">Board Governance</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Preferred Experience Level</label>
+        <select class="form-input">
+          <option>10+ years</option>
+          <option>15+ years</option>
+          <option>20+ years</option>
+          <option>No preference</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Additional Notes</label>
+        <textarea class="form-input" rows="3" placeholder="Any specific requirements, preferences, or context for advisors..."></textarea>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-top:20px;">
+        <button class="btn-outline" onclick="goToStep(2)">← Back</button>
+        <button class="btn-black" onclick="goToStep(4)">Review →</button>
+      </div>
+    </div>
+
+    <!-- Step 4: Review -->
+    <div id="opp-step-4" style="display:none;">
+      <div style="background:var(--bg);border-radius:var(--radius);padding:20px;margin-bottom:20px;">
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);font-weight:600;margin-bottom:12px;">Preview — How advisors will see your opportunity</div>
+        <div class="opp-card" id="opp-preview-card">
+          <div class="flex justify-between items-start mb-2">
+            <div class="flex items-center gap-3">
+              <div class="avatar" style="background:#1E3A5F;color:#fff;font-size:11.55px;width:40px;height:40px;">PF</div>
+              <div>
+                <div class="flex items-center gap-2"><span class="font-600" id="preview-title">Your Opportunity Title</span> <span class="badge badge-red">High</span></div>
+                <div style="font-size:12.6px;color:var(--text-muted);">Prism FinTech · Series B</div>
+              </div>
+            </div>
+          </div>
+          <span class="badge badge-gray" style="margin-bottom:10px;" id="preview-role">Advisor Role</span>
+          <div style="font-size:12.6px;color:var(--text-muted);margin:8px 0;" id="preview-desc">Your opportunity description will appear here...</div>
+          <div class="opp-meta-grid">
+            <div class="opp-meta-item"><div class="opp-meta-label">Budget Range</div><div class="opp-meta-value">$—/mo</div></div>
+            <div class="opp-meta-item"><div class="opp-meta-label">Time Commitment</div><div class="opp-meta-value">— hrs/week</div></div>
+          </div>
+          <div class="flex gap-2">
+            <span class="tag">Skill 1</span><span class="tag">Skill 2</span>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-top:20px;">
+        <button class="btn-outline" onclick="goToStep(3)">← Back</button>
+        <div class="flex gap-2">
+          <button class="btn-outline" onclick="closeNewOpportunity()">Save as Draft</button>
+          <button class="btn-black" onclick="publishOpportunity()">
+            <span class="material-symbols-outlined" style="font-size:16px;">campaign</span>
+            Publish Opportunity
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ===== SUCCESS TOAST ===== -->
+<div id="success-toast" style="display:none;position:fixed;bottom:32px;right:32px;background:var(--green);color:#fff;padding:14px 22px;border-radius:var(--radius);font-size:14px;font-weight:500;box-shadow:0 8px 24px rgba(0,0,0,0.15);z-index:300;display:none;align-items:center;gap:8px;">
+  <span class="material-symbols-outlined" style="font-size:18px;">check_circle</span>
+  Opportunity published successfully!
+</div>
+
+
+<script>
+  // ===== NAVIGATION =====
+  // ===== MOBILE SIDEBAR TOGGLE =====
+  function toggleSidebar() {
+    var sidebar = document.getElementById('sidebar');
+    var overlay = document.getElementById('sidebar-overlay');
+    sidebar.classList.toggle('open');
+    overlay.classList.toggle('show');
+  }
+
+  function closeSidebar() {
+    var sidebar = document.getElementById('sidebar');
+    var overlay = document.getElementById('sidebar-overlay');
+    sidebar.classList.remove('open');
+    overlay.classList.remove('show');
+  }
+
+  function navigate(page, el) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.getElementById('page-' + page).classList.add('active');
+    el.classList.add('active');
+    closeSidebar();
+  }
+
+  // ===== SESSION TABS =====
+  function switchSessionTab(tab, el) {
+    document.querySelectorAll('#session-tabs .tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById('session-upcoming').style.display = tab === 'upcoming' ? 'block' : 'none';
+    document.getElementById('session-completed').style.display = tab === 'completed' ? 'block' : 'none';
+    document.getElementById('session-cancelled').style.display = tab === 'cancelled' ? 'block' : 'none';
+  }
+
+  // ===== OPPORTUNITY TABS =====
+  function switchOppTab(tab, el) {
+    document.querySelectorAll('#opp-tabs .tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById('opp-active').style.display = tab === 'active' ? 'block' : 'none';
+    document.getElementById('opp-draft').style.display = tab === 'draft' ? 'block' : 'none';
+    document.getElementById('opp-closed').style.display = tab === 'closed' ? 'block' : 'none';
+  }
+
+  // ===== PILL FILTER TOGGLE =====
+  document.querySelectorAll('.pill-filters').forEach(function(container) {
+    container.querySelectorAll('.pill-filter').forEach(function(pill) {
+      pill.addEventListener('click', function() {
+        container.querySelectorAll('.pill-filter').forEach(p => p.classList.remove('active'));
+        this.classList.add('active');
+      });
+    });
+  });
+
+  // ===== EXAMPLE QUERY CLICK-TO-FILL =====
+  document.querySelectorAll('.example-query').forEach(function(eq) {
+    eq.addEventListener('click', function() {
+      var input = document.querySelector('.nl-search-bar input');
+      if (input) {
+        input.value = this.textContent;
+        input.focus();
+      }
+    });
+  });
+
+  // ===== NEW OPPORTUNITY MODAL =====
+  function openNewOpportunity() {
+    document.getElementById('new-opp-modal').classList.add('show');
+    goToStep(1);
+  }
+
+  function closeNewOpportunity() {
+    document.getElementById('new-opp-modal').classList.remove('show');
+  }
+
+  // Close modal on overlay click
+  document.getElementById('new-opp-modal').addEventListener('click', function(e) {
+    if (e.target === this) closeNewOpportunity();
+  });
+
+  function goToStep(step) {
+    // Hide all steps
+    for (var i = 1; i <= 4; i++) {
+      document.getElementById('opp-step-' + i).style.display = 'none';
+      var dot = document.getElementById('step-' + i + '-dot');
+      dot.classList.remove('active', 'completed');
+    }
+    // Show current step
+    document.getElementById('opp-step-' + step).style.display = 'block';
+
+    // Update stepper dots
+    for (var i = 1; i <= 4; i++) {
+      var dot = document.getElementById('step-' + i + '-dot');
+      if (i < step) dot.classList.add('completed');
+      if (i === step) dot.classList.add('active');
+    }
+
+    // Update preview on step 4
+    if (step === 4) {
+      var title = document.getElementById('opp-title').value || 'Your Opportunity Title';
+      var role = document.getElementById('opp-role').value || 'Advisor Role';
+      var desc = document.getElementById('opp-desc').value || 'Your opportunity description will appear here...';
+      document.getElementById('preview-title').textContent = title;
+      document.getElementById('preview-role').textContent = role;
+      document.getElementById('preview-desc').textContent = desc;
+    }
+  }
+
+  function publishOpportunity() {
+    closeNewOpportunity();
+    // Show success toast
+    var toast = document.getElementById('success-toast');
+    toast.style.display = 'flex';
+    setTimeout(function() {
+      toast.style.display = 'none';
+    }, 3000);
+    // Navigate to opportunities page
+    var oppNav = document.querySelector('[data-page="opportunities"]');
+    navigate('opportunities', oppNav);
+  }
+</script>
+
+</body>
+</html>
