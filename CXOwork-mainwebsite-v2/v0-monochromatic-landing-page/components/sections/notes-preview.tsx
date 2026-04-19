@@ -4,30 +4,102 @@ import { motion, useInView } from "motion/react"
 import { useRef, useState, useCallback } from "react"
 import { Play } from "lucide-react"
 
+// ── Growth partner logos (all local grayscale PNGs) ──────────────────────────
+const PARTNER_LOGOS = [
+  { name: "Directful",      src: "/logos/directful.png"      },
+  { name: "AffableONE",     src: "/logos/affableone.png"     },
+  { name: "TechIO",         src: "/logos/techiosoft.png"     },
+  { name: "BrickRed",       src: "/logos/brickred.png"       },
+  { name: "ThinkIQ",        src: "/logos/thinkiq.png"        },
+  { name: "Zuper",          src: "/logos/zuper.png"          },
+  { name: "ConnectedStars", src: "/logos/connectedstars.png" },
+  { name: "Echomd",         src: "/logos/echomd.png"         },
+]
+
+// Duplicate for seamless infinite loop
+const TICKER_ITEMS = [...PARTNER_LOGOS, ...PARTNER_LOGOS]
+
+function LogoTicker() {
+  return (
+    <div className="relative overflow-hidden py-6 mb-10">
+      {/* Left fade */}
+      <div
+        className="pointer-events-none absolute left-0 top-0 bottom-0 z-10 w-20"
+        style={{ background: "linear-gradient(to right, var(--background) 0%, transparent 100%)" }}
+      />
+      {/* Right fade */}
+      <div
+        className="pointer-events-none absolute right-0 top-0 bottom-0 z-10 w-20"
+        style={{ background: "linear-gradient(to left, var(--background) 0%, transparent 100%)" }}
+      />
+
+      {/* Scrolling track */}
+      <div
+        className="flex items-center gap-14"
+        style={{
+          width: "max-content",
+          animation: "logoTickerScroll 28s linear infinite",
+        }}
+      >
+        {TICKER_ITEMS.map((logo, i) => (
+          <span key={i} className="inline-flex items-center flex-shrink-0">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={logo.src}
+              alt={logo.name}
+              style={{
+                height: "28px",
+                width: "auto",
+                maxWidth: "120px",
+                opacity: 0.85,
+                objectFit: "contain",
+              }}
+              onError={(e) => {
+                e.currentTarget.style.display = "none";
+                const sibling = e.currentTarget.nextElementSibling as HTMLElement | null
+                if (sibling) sibling.style.display = "inline"
+              }}
+            />
+            {/* Text fallback — hidden until image fails */}
+            <span
+              style={{
+                display: "none",
+                fontSize: "13px",
+                fontWeight: 600,
+                color: "#6b7280",
+                whiteSpace: "nowrap",
+                letterSpacing: "0.03em",
+              }}
+            >
+              {logo.name}
+            </span>
+          </span>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 const testimonials = [
   {
     videoSrc: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
     poster: "",
-    company: "MongoDB",
+    company: "Zuper",
     logoSvg: (
-      <svg viewBox="0 0 90 20" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-5 w-auto">
-        <circle cx="7" cy="10" r="6" fill="white" opacity="0.9"/>
-        <path d="M7 4 C7 4 10 7 10 10 C10 13 7 16 7 16 C7 16 4 13 4 10 C4 7 7 4 7 4Z" fill="#00ED64"/>
-        <text x="17" y="14" fill="white" fontSize="11" fontWeight="700" fontFamily="system-ui">MongoDB</text>
-      </svg>
+      // eslint-disable-next-line @next/next/no-img-element
+      <img src="/logos/zuper.png" alt="Zuper"
+        style={{ height: "22px", width: "auto", filter: "brightness(0) invert(1)", opacity: 0.9 }} />
     ),
     quote: "Found our fractional CFO in 4 days. Closed our Series B 3 months later.",
   },
   {
     videoSrc: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
     poster: "",
-    company: "Cloud Software Group",
+    company: "Directful",
     logoSvg: (
-      <svg viewBox="0 0 130 20" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-5 w-auto">
-        <path d="M4 13 Q4 8 9 8 Q11 5 14 7 Q16 4 20 6 Q23 4 25 8 Q28 8 28 13 Q28 16 25 16 L7 16 Q4 16 4 13Z" fill="white" opacity="0.9"/>
-        <text x="33" y="14" fill="white" fontSize="10" fontWeight="700" fontFamily="system-ui">cloud™</text>
-        <text x="33" y="19" fill="white" fontSize="6" fontFamily="system-ui" opacity="0.8">SOFTWARE GROUP</text>
-      </svg>
+      // eslint-disable-next-line @next/next/no-img-element
+      <img src="/logos/directful.png" alt="Directful"
+        style={{ height: "22px", width: "auto", filter: "brightness(0) invert(1)", opacity: 0.9 }} />
     ),
     quote: "Our GTM motion transformed in 60 days with a CXOwork CMO.",
   },
@@ -122,7 +194,7 @@ function VideoCard({ testimonial, index, isInView }: {
         className="absolute top-5 left-5 right-5 transition-opacity duration-300"
         style={{ opacity: playing ? 0 : 1 }}
       >
-        <p className="text-sm font-medium leading-snug text-white/90 italic">
+        <p className="text-base font-medium leading-snug text-white/90 italic">
           &ldquo;{testimonial.quote}&rdquo;
         </p>
       </div>
@@ -141,13 +213,20 @@ export function NotesPreview() {
 
   return (
     <section ref={ref} id="features" aria-labelledby="features-heading" className="bg-background py-20 md:py-28">
+      <style>{`
+        @keyframes logoTickerScroll {
+          0%   { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+      `}</style>
+
       <div className="mx-auto max-w-6xl px-6">
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="mb-12"
+          className="mb-10"
         >
           <p className="mb-3 text-xs font-medium uppercase tracking-widest text-muted-foreground">
             Social Proof
@@ -158,6 +237,15 @@ export function NotesPreview() {
           <p className="mt-4 max-w-lg text-base leading-relaxed text-muted-foreground">
             Our growth partners are our ambassadors — hear directly from the companies who scaled faster with CXOwork.
           </p>
+        </motion.div>
+
+        {/* Partner logo ticker */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.7, delay: 0.3 }}
+        >
+          <LogoTicker />
         </motion.div>
 
         {/* Video Testimonials */}
