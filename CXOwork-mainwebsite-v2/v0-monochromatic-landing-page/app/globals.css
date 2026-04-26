@@ -12,6 +12,67 @@ body {
   }
 }
 
+/* ── Dark hero layers ─────────────────────────────────────────────────────── */
+
+/* Always-visible dim dot grid */
+.hero-dots-dim {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.08) 1.5px, transparent 1.5px);
+  background-size: 28px 28px;
+  background-position: 14px 14px;
+  pointer-events: none;
+}
+
+/* Bright dot layer — only revealed where the sweep mask passes */
+.hero-dots-bright {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.40) 1.5px, transparent 1.5px);
+  background-size: 28px 28px;
+  background-position: 14px 14px;
+  -webkit-mask-image: linear-gradient(
+    108deg,
+    transparent 15%,
+    rgba(0,0,0,0.3) 30%,
+    rgba(0,0,0,0.80) 40%,
+    rgba(0,0,0,0.80) 50%,
+    rgba(0,0,0,0.25) 60%,
+    transparent 74%
+  );
+  -webkit-mask-size: 220% 100%;
+  -webkit-mask-position: -100% 0;
+  mask-image: linear-gradient(
+    108deg,
+    transparent 15%,
+    rgba(0,0,0,0.3) 30%,
+    rgba(0,0,0,0.80) 40%,
+    rgba(0,0,0,0.80) 50%,
+    rgba(0,0,0,0.25) 60%,
+    transparent 74%
+  );
+  mask-size: 220% 100%;
+  mask-position: -100% 0;
+  animation: dotWave 9s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  pointer-events: none;
+}
+
+@keyframes dotWave {
+  0%   { -webkit-mask-position: -100% 0; mask-position: -100% 0; }
+  50%  { -webkit-mask-position: 200% 0;  mask-position: 200% 0;  }
+  100% { -webkit-mask-position: 200% 0;  mask-position: 200% 0;  }
+}
+
+/* Static blue radial glow pools */
+.hero-glow {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 55% 60% at 15% 70%, rgba(37,99,235,0.20) 0%, transparent 70%),
+    radial-gradient(ellipse 35% 40% at 82% 20%, rgba(37,99,235,0.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+
 /* ── TalentHive-inspired blue theme utilities ─────────────────────────────── */
 
 /* Card hover lift + blue glow */

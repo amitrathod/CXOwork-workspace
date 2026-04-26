@@ -1,0 +1,49 @@
+CXOwork — 45-Second Explainer Video Script
+==========================================
+
+[0:00–0:08] — Hook
+Background: CXOwork homepage hero
+
+"Most early-stage startups don't need a full-time CFO, CTO, or CMO.
+But they desperately need that expertise — right now."
+
+---
+
+[0:08–0:18] — Problem
+Background: Founder dashboard, empty C-suite slots
+
+"Hiring a senior executive takes months, costs hundreds of thousands
+a year, and most of the time — it's the wrong fit."
+
+---
+
+[0:18–0:30] — Solution / How it works
+Background: CXOwork matching flow UI, advisor profiles
+
+"CXOwork connects you with vetted fractional executives in under
+48 hours. Tell us your stage, your gap, your goal — and we match
+you with someone who's done it before, at companies just like yours."
+
+---
+
+[0:30–0:40] — Results
+Background: Testimonial cards / metrics ("Series A closed", "70% faster deploys")
+
+"Our founders close funding rounds faster, fix GTM in weeks, and
+scale without chaos — for a fraction of the cost."
+
+---
+
+[0:40–0:45] — CTA
+Background: Get Started page / CXOwork logo
+
+"Get matched today. Your fractional CXO is waiting."
+
+---
+
+PRODUCTION NOTES
+----------------
+- Calm, confident delivery — not salesy
+- UI screens appear as floating overlays fading in/out on the right
+- No background music until CTA beat, then a subtle rise
+- Captions recommended — most viewers watch muted

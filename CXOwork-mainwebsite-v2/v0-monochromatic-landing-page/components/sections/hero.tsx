@@ -1,91 +1,110 @@
 "use client"
 
 import { motion } from "motion/react"
-import { Play } from "lucide-react"
+import { Calendar } from "lucide-react"
 
 export function Hero() {
   const subtitleText =
     "CXOwork connects growing companies with battle-tested fractional CFOs, CMOs, CTOs and COOs — without the full-time cost or six-month search."
 
   return (
-    <section className="px-4 pt-24 pb-0 md:px-6 lg:px-8">
-      <div className="mesh-hero grid-overlay relative mx-auto max-w-7xl overflow-hidden rounded-3xl">
-        {/* Blue ambient blobs */}
-        <div
-          className="pointer-events-none absolute top-1/4 left-1/4 h-96 w-96 rounded-full"
-          style={{ background: "radial-gradient(circle, rgba(37,99,235,0.07) 0%, transparent 70%)", filter: "blur(48px)" }}
-        />
-        <div
-          className="pointer-events-none absolute bottom-1/3 right-1/4 h-64 w-64 rounded-full"
-          style={{ background: "radial-gradient(circle, rgba(59,130,246,0.05) 0%, transparent 70%)", filter: "blur(32px)" }}
-        />
+    <section
+      className="relative overflow-hidden"
+      style={{ background: "#06091A", minHeight: "680px" }}
+    >
+      {/* Layer 1 — dim dot grid (always visible) */}
+      <div className="hero-dots-dim" />
 
-        {/* Content */}
-        <div className="relative z-10 flex flex-col items-center px-6 pt-16 pb-16 text-center md:pt-20 md:pb-20 lg:pt-24 lg:pb-24">
+      {/* Layer 2 — bright dots revealed by animated sweep mask */}
+      <div className="hero-dots-bright" />
 
-          {/* Announcement badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.15 }}
-            className="mb-6 inline-flex items-center rounded-full px-4 py-2 text-xs font-medium"
-            style={{ background: "#e5e7eb", border: "1px solid #9ca3af", color: "#374151" }}
+      {/* Layer 3 — static blue radial glow pools */}
+      <div className="hero-glow" />
+
+      {/* Content */}
+      <div className="relative z-10 flex flex-col items-center px-6 pt-36 pb-28 text-center md:pt-40 md:pb-32">
+
+        {/* Announcement badge */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.15 }}
+          className="mb-8 inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-medium"
+          style={{
+            background: "rgba(255,255,255,0.05)",
+            border: "1px solid rgba(255,255,255,0.14)",
+            color: "rgba(255,255,255,0.72)",
+          }}
+        >
+          Fractional Executives. Real Impact. Zero Search Fees.
+        </motion.div>
+
+        {/* Headline */}
+        <motion.h1
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.3 }}
+          className="mx-auto max-w-3xl font-display text-5xl font-bold leading-[1.08] tracking-tight md:text-6xl lg:text-7xl"
+          style={{ color: "#ffffff" }}
+        >
+          Executive talent,
+          <br />
+          <span style={{ color: "#3B5BFF" }}>on your terms.</span>
+        </motion.h1>
+
+        {/* Subheadline */}
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
+          className="mx-auto mt-7 max-w-xl text-center text-sm leading-relaxed md:text-base"
+          style={{ color: "rgba(255,255,255,0.50)" }}
+        >
+          {subtitleText}
+        </motion.p>
+
+        {/* CTA buttons */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.65 }}
+          className="mt-10 flex flex-col items-center gap-3 sm:flex-row"
+        >
+          {/* Primary — solid blue, high contrast on dark bg */}
+          <a
+            href="/get-started"
+            className="btn-blue-gradient animate-glow-pulse inline-flex items-center gap-2 rounded-2xl px-7 py-3.5 text-sm font-semibold"
           >
-            Fractional Executives. Real Impact. Zero Search Fees.
-          </motion.div>
+            Get Matched Now →
+          </a>
 
-          {/* Headline */}
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.3 }}
-            className="mx-auto max-w-3xl font-display text-4xl font-bold leading-[1.1] tracking-tight md:text-6xl lg:text-7xl"
-            style={{ color: "#0a0a0a" }}
+          {/* Secondary — ghost with white border */}
+          <a
+            href="#"
+            className="inline-flex items-center gap-2 rounded-2xl px-7 py-3.5 text-sm font-medium transition-colors"
+            style={{
+              border: "1px solid rgba(255,255,255,0.18)",
+              color: "rgba(255,255,255,0.75)",
+              background: "rgba(255,255,255,0.04)",
+            }}
+            onMouseEnter={e => {
+              const el = e.currentTarget as HTMLAnchorElement
+              el.style.borderColor = "rgba(255,255,255,0.35)"
+              el.style.color = "#fff"
+              el.style.background = "rgba(255,255,255,0.08)"
+            }}
+            onMouseLeave={e => {
+              const el = e.currentTarget as HTMLAnchorElement
+              el.style.borderColor = "rgba(255,255,255,0.18)"
+              el.style.color = "rgba(255,255,255,0.75)"
+              el.style.background = "rgba(255,255,255,0.04)"
+            }}
           >
-            Executive talent,
-            <br />
-            <span style={{ color: "#0a0a0a" }}>
-              on your terms.
-            </span>
-          </motion.h1>
+            <Calendar className="h-4 w-4 opacity-60" />
+            Schedule Consultation Now
+          </a>
+        </motion.div>
 
-          {/* Subheadline */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.5 }}
-            className="mx-auto mt-6 max-w-xl text-center text-sm leading-relaxed text-gray-600 md:text-base"
-          >
-            {subtitleText}
-          </motion.p>
-
-          {/* CTA buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.65 }}
-            className="mt-8 flex flex-col items-center gap-3 sm:flex-row"
-          >
-            <a
-              href="/get-started"
-              className="btn-blue-gradient animate-glow-pulse inline-flex items-center gap-2 rounded-2xl px-7 py-3.5 text-sm font-semibold"
-            >
-              Get Matched Now →
-            </a>
-            <button
-              className="inline-flex items-center gap-2 rounded-2xl border px-7 py-3.5 text-sm font-medium transition-colors hover:border-blue-400/40 hover:text-gray-900"
-              style={{ borderColor: "#d1d5db", color: "#374151", backgroundColor: "#fff" }}
-            >
-              <span
-                className="flex h-5 w-5 items-center justify-center rounded-full"
-                style={{ backgroundColor: "#0a0a0a" }}
-              >
-                <Play className="h-2.5 w-2.5 fill-white text-white" style={{ marginLeft: "1px" }} />
-              </span>
-              Watch CXOwork in action
-            </button>
-          </motion.div>
-        </div>
       </div>
     </section>
   )
