@@ -1,0 +1,11 @@
+{
+  "/page": "app/page.js",
+  "/dashboard/page": "app/dashboard/page.js",
+  "/dashboard/engagements/page": "app/dashboard/engagements/page.js",
+  "/dashboard/briefs/page": "app/dashboard/briefs/page.js",
+  "/dashboard/find-cxo/page": "app/dashboard/find-cxo/page.js",
+  "/dashboard/messages/page": "app/dashboard/messages/page.js",
+  "/dashboard/advisor-profile/page": "app/dashboard/advisor-profile/page.js",
+  "/dashboard/send-offer/page": "app/dashboard/send-offer/page.js",
+  "/get-matched/page": "app/get-matched/page.js"
+}

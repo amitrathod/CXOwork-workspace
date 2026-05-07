@@ -1,0 +1,8 @@
+{
+  "/advisor-dashboard/page": "app/advisor-dashboard/page.js",
+  "/advisor-dashboard/overview/page": "app/advisor-dashboard/overview/page.js",
+  "/advisor-dashboard/clients/page": "app/advisor-dashboard/clients/page.js",
+  "/advisor-dashboard/messages/page": "app/advisor-dashboard/messages/page.js",
+  "/advisor-dashboard/profile/page": "app/advisor-dashboard/profile/page.js",
+  "/advisor-dashboard/leads/page": "app/advisor-dashboard/leads/page.js"
+}
