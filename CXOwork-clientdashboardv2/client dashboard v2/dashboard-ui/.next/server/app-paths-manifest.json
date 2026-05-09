@@ -1,11 +1,15 @@
 {
   "/page": "app/page.js",
   "/dashboard/page": "app/dashboard/page.js",
-  "/dashboard/engagements/page": "app/dashboard/engagements/page.js",
+  "/dashboard/contracts/page": "app/dashboard/contracts/page.js",
+  "/get-matched/page": "app/get-matched/page.js",
   "/dashboard/briefs/page": "app/dashboard/briefs/page.js",
-  "/dashboard/find-cxo/page": "app/dashboard/find-cxo/page.js",
-  "/dashboard/messages/page": "app/dashboard/messages/page.js",
-  "/dashboard/advisor-profile/page": "app/dashboard/advisor-profile/page.js",
+  "/dashboard/engagements/page": "app/dashboard/engagements/page.js",
   "/dashboard/send-offer/page": "app/dashboard/send-offer/page.js",
-  "/get-matched/page": "app/get-matched/page.js"
+  "/dashboard/messages/page": "app/dashboard/messages/page.js",
+  "/dashboard/find-cxo/page": "app/dashboard/find-cxo/page.js",
+  "/dashboard/profile/page": "app/dashboard/profile/page.js",
+  "/dashboard/milestones/page": "app/dashboard/milestones/page.js",
+  "/dashboard/sessions/page": "app/dashboard/sessions/page.js",
+  "/dashboard/timesheets/page": "app/dashboard/timesheets/page.js"
 }

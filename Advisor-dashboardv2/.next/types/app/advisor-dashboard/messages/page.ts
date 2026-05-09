@@ -1,4 +1,4 @@
-// File: /Users/amitrathod/mac-local-folder/CXOwork-workspace/Advisor-dashboardv2/app/advisor-dashboard/messages/page.tsx
+// File: /Users/amitrathod/mac-local-folder/CXOwork-workspace/CXOwork-workspace/Advisor-dashboardv2/app/advisor-dashboard/messages/page.tsx
 import * as entry from '../../../../../app/advisor-dashboard/messages/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

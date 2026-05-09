@@ -157,7 +157,7 @@ function ClientProfilePage() {
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
-                                className: "text-[24px] font-semibold tracking-tight",
+                                className: "font-display text-[1.75rem] font-bold tracking-tight text-gray-900",
                                 children: "My profile"
                             }, void 0, false, {
                                 fileName: "[project]/app/dashboard/profile/page.tsx",
@@ -558,7 +558,7 @@ function Section({ title, children }) {
         className: "bg-white border border-gray-200 rounded-xl p-5 mb-5",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
-                className: "text-[12px] font-bold uppercase tracking-[0.07em] text-gray-600 mb-3",
+                className: "text-[12px] font-bold uppercase tracking-[0.07em] text-gray-500 mb-3",
                 children: title
             }, void 0, false, {
                 fileName: "[project]/app/dashboard/profile/page.tsx",

@@ -21,30 +21,60 @@
       "static/chunks/main-app.js",
       "static/chunks/app/advisor-dashboard/layout.js"
     ],
-    "/advisor-dashboard/overview/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/advisor-dashboard/overview/page.js"
-    ],
     "/advisor-dashboard/clients/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/advisor-dashboard/clients/page.js"
+    ],
+    "/advisor-dashboard/contracts/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/advisor-dashboard/contracts/page.js"
+    ],
+    "/advisor-dashboard/milestones/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/advisor-dashboard/milestones/page.js"
+    ],
+    "/advisor-dashboard/sessions/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/advisor-dashboard/sessions/page.js"
+    ],
+    "/advisor-dashboard/overview/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/advisor-dashboard/overview/page.js"
     ],
     "/advisor-dashboard/leads/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/advisor-dashboard/leads/page.js"
     ],
-    "/advisor-dashboard/profile/page": [
+    "/advisor-dashboard/contracts/[id]/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/advisor-dashboard/profile/page.js"
+      "static/chunks/app/advisor-dashboard/contracts/[id]/page.js"
     ],
     "/advisor-dashboard/messages/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/advisor-dashboard/messages/page.js"
+    ],
+    "/advisor-dashboard/meetings/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/advisor-dashboard/meetings/page.js"
+    ],
+    "/advisor-dashboard/timesheets/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/advisor-dashboard/timesheets/page.js"
+    ],
+    "/advisor-dashboard/profile/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/advisor-dashboard/profile/page.js"
     ]
   }
 }

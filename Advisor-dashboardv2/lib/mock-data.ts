@@ -4,15 +4,15 @@ import type {
 
 export const MOCK_ADVISOR: AdvisorProfile = {
   uid                  : "mock-advisor-uid-001",
-  firstName            : "Alex",
-  lastName             : "Morgan",
-  email                : "alex.morgan@example.com",
-  bio                  : "Seasoned C-suite executive with 15+ years driving growth across fintech, SaaS, and enterprise software. Former CFO at TechCorp Inc. and VP Finance at GrowthStack.",
-  about                : "Seasoned C-suite executive with 15+ years driving growth across fintech, SaaS, and enterprise software.",
-  headline             : "Former CFO | Financial Strategy & Growth Expert",
-  professionalTitle    : "Chief Financial Officer",
+  firstName            : "Sarah",
+  lastName             : "Chen",
+  email                : "sarah.chen@example.com",
+  bio                  : "Seasoned finance executive with 14+ years driving growth across SaaS, fintech, and enterprise software. Former VP Finance at ScaleUp Inc. and Finance Director at GrowthStack.",
+  about                : "Seasoned finance executive with 14+ years driving growth across SaaS, fintech, and enterprise software.",
+  headline             : "Fractional CFO | Series B Fundraising & Financial Strategy Expert",
+  professionalTitle    : "Fractional CFO",
   photoUrl             : null,
-  linkedinUrl          : "linkedin.com/in/alexmorgan",
+  linkedinUrl          : "linkedin.com/in/sarahchen",
   profileStatus        : "active",
   skills               : ["Financial Strategy", "M&A", "Fundraising", "P&L Management", "Series B/C Fundraising", "Board Reporting"],
   coreSkills           : ["Financial Strategy", "M&A", "Fundraising"],
@@ -31,19 +31,19 @@ export const MOCK_ADVISOR: AdvisorProfile = {
     { name: "Marcus Liu",     email: "mliu@techcorp.io",     relationship: "Former CEO" },
   ],
   workHistory: [
-    { title: "CFO",              company: "TechCorp Inc.",    startDate: "2019", endDate: "2023",         description: "Led $120M Series C and oversaw 3x revenue growth." },
-    { title: "VP Finance",       company: "GrowthStack",      startDate: "2016", endDate: "2019",         description: "Built finance team from scratch, led acquisition." },
-    { title: "Finance Director", company: "FinServe Global",  startDate: "2012", endDate: "2016" },
+    { title: "VP Finance",       company: "ScaleUp Inc.",     startDate: "2020", endDate: "2024",         description: "Led $85M Series B and built FP&A function from 2 to 12 people." },
+    { title: "Finance Director", company: "GrowthStack",      startDate: "2017", endDate: "2020",         description: "Owned financial planning, board reporting, and investor relations." },
+    { title: "Senior Controller", company: "FinServe Global", startDate: "2011", endDate: "2017" },
   ],
   experienceHistory: [
-    { title: "CFO",              company: "TechCorp Inc.",    startDate: "2019", endDate: "2023",         description: "Led $120M Series C and oversaw 3x revenue growth." },
-    { title: "VP Finance",       company: "GrowthStack",      startDate: "2016", endDate: "2019",         description: "Built finance team from scratch, led acquisition." },
-    { title: "Finance Director", company: "FinServe Global",  startDate: "2012", endDate: "2016" },
+    { title: "VP Finance",       company: "ScaleUp Inc.",     startDate: "2020", endDate: "2024",         description: "Led $85M Series B and built FP&A function from 2 to 12 people." },
+    { title: "Finance Director", company: "GrowthStack",      startDate: "2017", endDate: "2020",         description: "Owned financial planning, board reporting, and investor relations." },
+    { title: "Senior Controller", company: "FinServe Global", startDate: "2011", endDate: "2017" },
   ],
 };
 
 export const MOCK_MATCHES: AdvisorMatch[] = [
-  { id: "match-1", clientUid: "client-1", advisorUid: "mock-advisor-uid-001", status: "active",   note: "Strong fit for Series B financial strategy — Alex's SaaS background is exactly what this team needs." },
+  { id: "match-1", clientUid: "client-1", advisorUid: "mock-advisor-uid-001", status: "active",   note: "Strong fit for Series B financial strategy — Sarah's SaaS background is exactly what this team needs." },
   { id: "match-2", clientUid: "client-2", advisorUid: "mock-advisor-uid-001", status: "active",   note: "Both have deep fintech roots. Complementary experience in payments infrastructure." },
   { id: "match-3", clientUid: "client-3", advisorUid: "mock-advisor-uid-001", status: "active",   note: "Enterprise SaaS company targeting CFO advisory for their upcoming M&A process." },
   { id: "match-4", clientUid: "client-4", advisorUid: "mock-advisor-uid-001", status: "archived", note: "Archived — engagement completed." },
@@ -51,8 +51,8 @@ export const MOCK_MATCHES: AdvisorMatch[] = [
 
 export const MOCK_CLIENTS: Record<string, MatchedClientProfile> = {
   "client-1": {
-    uid: "client-1", firstName: "Sarah", lastName: "Chen",
-    email: "sarah.chen@growthtech.io", companyName: "GrowthTech",
+    uid: "client-1", firstName: "Alex", lastName: "Johnson",
+    email: "alex.johnson@growthtech.io", companyName: "GrowthTech",
     companyIndustry: "SaaS", companyWebsite: "growthtech.io",
     prefRole: "Fractional CFO",
     lookingFor: "Help with Series B fundraising, financial modeling, and building out our finance function ahead of an institutional raise.",
@@ -82,28 +82,28 @@ export const MOCK_LEADS: Lead[] = [
 ];
 
 export const MOCK_ADMIN_MESSAGES: ChatMessage[] = [
-  { id: "adm-1", text: "Hi Alex! Welcome to CXOwork. Your profile has been reviewed and approved. You can now access all features.",          senderRole: "admin",   senderUid: "admin", createdAt: Date.now() - 86400000 * 10 },
+  { id: "adm-1", text: "Hi Sarah! Welcome to CXOwork. Your profile has been reviewed and approved. You can now access all features.",        senderRole: "admin",   senderUid: "admin", createdAt: Date.now() - 86400000 * 10 },
   { id: "adm-2", text: "Thanks! Really excited to get started. Any tips on optimising my profile for matches?",                              senderRole: "advisor", senderUid: "mock-advisor-uid-001", createdAt: Date.now() - 86400000 * 10 + 60000 },
   { id: "adm-3", text: "Great question! Make sure to fill in your hourly rate, add 2-3 references, and keep your skills list specific.",     senderRole: "admin",   senderUid: "admin", createdAt: Date.now() - 86400000 * 9 },
   { id: "adm-4", text: "We've matched you with 3 new clients this week. Check the Clients tab to reach out!",                               senderRole: "admin",   senderUid: "admin", createdAt: Date.now() - 86400000 * 2 },
 ];
 
 export const MOCK_CLIENT_THREADS: ClientThread[] = [
-  { id: "thread-client-1", clientUid: "client-1", advisorUid: "mock-advisor-uid-001", clientName: "Sarah Chen",   lastMessage: "Looking forward to our call!", updatedAt: Date.now() - 3600000 },
+  { id: "thread-client-1", clientUid: "client-1", advisorUid: "mock-advisor-uid-001", clientName: "Alex Johnson",  lastMessage: "Looking forward to our call!", updatedAt: Date.now() - 3600000 },
   { id: "thread-client-2", clientUid: "client-2", advisorUid: "mock-advisor-uid-001", clientName: "Marcus Rivera", lastMessage: "Can you send over the deck?",   updatedAt: Date.now() - 86400000 },
 ];
 
 export const MOCK_THREAD_MESSAGES: Record<string, ChatMessage[]> = {
   "thread-client-1": [
-    { id: "t1m1", text: "Hi Alex, really excited to connect. We're about to kick off our Series B process.",                               senderRole: "client",  senderUid: "client-1", createdAt: Date.now() - 86400000 * 2 },
-    { id: "t1m2", text: "Hey Sarah! Congrats on the traction. Happy to help you prepare. When would be a good time to jump on a call?",   senderRole: "advisor", senderUid: "mock-advisor-uid-001", createdAt: Date.now() - 86400000 * 2 + 120000 },
+    { id: "t1m1", text: "Hi Sarah, really excited to connect. We're about to kick off our Series B process.",                             senderRole: "client",  senderUid: "client-1", createdAt: Date.now() - 86400000 * 2 },
+    { id: "t1m2", text: "Hey Alex! Congrats on the traction. Happy to help you prepare. When would be a good time to jump on a call?",   senderRole: "advisor", senderUid: "mock-advisor-uid-001", createdAt: Date.now() - 86400000 * 2 + 120000 },
     { id: "t1m3", text: "How about Thursday at 2pm PST?",                                                                                 senderRole: "client",  senderUid: "client-1", createdAt: Date.now() - 86400000 },
     { id: "t1m4", text: "Thursday works perfectly. I'll send over a calendar invite.",                                                    senderRole: "advisor", senderUid: "mock-advisor-uid-001", createdAt: Date.now() - 86400000 + 60000 },
     { id: "t1m5", text: "Looking forward to our call!",                                                                                   senderRole: "client",  senderUid: "client-1", createdAt: Date.now() - 3600000 },
   ],
   "thread-client-2": [
-    { id: "t2m1", text: "Hi Alex, Marcus here from PayFlow. I saw your background in payments — very relevant to what we're building.",    senderRole: "client",  senderUid: "client-2", createdAt: Date.now() - 86400000 * 3 },
-    { id: "t2m2", text: "Marcus! Great to connect. Love what PayFlow is doing in the European market. What are the biggest pain points?",  senderRole: "advisor", senderUid: "mock-advisor-uid-001", createdAt: Date.now() - 86400000 * 3 + 180000 },
-    { id: "t2m3", text: "Regulatory compliance mainly. Can you send over the deck you mentioned in your profile?",                         senderRole: "client",  senderUid: "client-2", createdAt: Date.now() - 86400000 },
+    { id: "t2m1", text: "Hi Sarah, Marcus here from PayFlow. I saw your background in SaaS finance — very relevant to what we're building.", senderRole: "client",  senderUid: "client-2", createdAt: Date.now() - 86400000 * 3 },
+    { id: "t2m2", text: "Marcus! Great to connect. Love what PayFlow is doing in the European market. What are the biggest pain points?",    senderRole: "advisor", senderUid: "mock-advisor-uid-001", createdAt: Date.now() - 86400000 * 3 + 180000 },
+    { id: "t2m3", text: "Regulatory compliance mainly. Can you send over the deck you mentioned in your profile?",                           senderRole: "client",  senderUid: "client-2", createdAt: Date.now() - 86400000 },
   ],
 };
